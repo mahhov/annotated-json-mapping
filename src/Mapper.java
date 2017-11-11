@@ -5,31 +5,24 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 public class Mapper {
-    Class clazz;
-    Field[] fields;
-
-    public Mapper(Class clazz) {
-        this.clazz = clazz;
-        fields = clazz.getDeclaredFields();
+    public static Object map(Class clazz, String jsonInput) throws Exception {
+        return map(clazz, new Path(""), jsonInput);
     }
 
-    public Object map(String jsonInput) throws Exception {
-        return map(new Path(""), jsonInput);
-    }
-
-    public Object map(Path basePath, String jsonInput) throws Exception {
+    private static Object map(Class clazz, Path basePath, String jsonInput) throws Exception {
+        Field[] fields = clazz.getDeclaredFields();
         JSONObject jsonObj = new JSONObject(jsonInput);
 
         Constructor<?> ctor = clazz.getDeclaredConstructor();
         Object mappedJson = ctor.newInstance();
 
-        for (Field field : fields)
-            if (field.getType() == String.class) {
-                Path path = getPath(basePath, field);
+        for (Field field : fields) {
+            Path path = getPath(basePath, field);
+            if (field.getType() == String.class)
                 field.set(mappedJson, applyPath(jsonObj, path));
-            } else {
-                // todo: support nested fields
-            }
+            else 
+                field.set(mappedJson, map(field.getType(), path, jsonInput));
+        }
 
         return mappedJson;
     }
@@ -54,8 +47,8 @@ public class Mapper {
         return null;
     }
 
-    public void print(Object mappedJson) throws Exception {
-        for (Field field : fields)
+    public static void print(Object mappedJson) throws Exception {
+        for (Field field : mappedJson.getClass().getDeclaredFields())
             System.out.printf("%-10s: %s\n", field.getName(), field.get(mappedJson));
     }
 }
