@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Entity {
     @JsonAnnotation("three")
     String threeMap;
@@ -53,6 +55,8 @@ class Entity {
 
     @JsonAnnotation("twelvePrim")
     char onee;
-    
+
     char nine;
+
+    ArrayList<String> list;
 }

@@ -1,6 +1,7 @@
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class FieldType {
+public class ClassCatagorizer {
     public static boolean isString(Field field) {
         return field.getType() == String.class;
     }
@@ -39,6 +40,10 @@ public class FieldType {
 
     public static boolean isSimple(Field field) {
         return isString(field) || isInteger(field) || isShort(field) || isByte(field) || isLong(field) || isDouble(field) || isFloat(field) || isChar(field) || isBoolean(field);
+    }
+
+    public static boolean isList(Field field) {
+        return List.class.isAssignableFrom(field.getType());// || field.getType().isArray();
     }
 
     public static void setSimple(Object obj, Field field, Object value) throws Exception {

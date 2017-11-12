@@ -15,4 +15,3 @@ class Main<T> {
 
 // todo: arrays
 // todo: conditional mappings
-// todo: primitives

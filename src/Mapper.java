@@ -1,8 +1,9 @@
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class Mapper {
     public static Object map(Class clazz, String jsonInput) throws Exception {
@@ -13,15 +14,20 @@ public class Mapper {
         Field[] fields = clazz.getDeclaredFields();
         JSONObject jsonObj = new JSONObject(jsonInput);
 
-        Constructor<?> ctor = clazz.getDeclaredConstructor();
-        Object mappedJson = ctor.newInstance();
+        Object mappedJson = clazz.getDeclaredConstructor().newInstance();
 
         for (Field field : fields) {
             Path path = getPath(basePath, field);
 
-            if (FieldType.isSimple(field)) {
+            if (ClassCatagorizer.isSimple(field)) {
                 Object value = applyPath(jsonObj, path);
-                FieldType.setSimple(mappedJson, field, value);
+                ClassCatagorizer.setSimple(mappedJson, field, value);
+            } else if (ClassCatagorizer.isList(field)) {
+                List list = (List) field.getType().getDeclaredConstructor().newInstance();
+                field.set(mappedJson, list);
+                JSONArray value = (JSONArray) applyPath(jsonObj, path);
+                for (int i = 0; i < value.length(); i++)
+                    list.add(String.valueOf(value.get(i)));
             } else
                 field.set(mappedJson, map(field.getType(), path, jsonInput));
         }
@@ -67,9 +73,14 @@ public class Mapper {
 
     private static void printObject(int indent, Object mappedJson) throws Exception {
         for (Field field : mappedJson.getClass().getDeclaredFields())
-            if (FieldType.isSimple(field))
+            if (ClassCatagorizer.isSimple(field))
                 printField(indent, field.getName(), field.get(mappedJson));
-            else {
+            else if (ClassCatagorizer.isList(field)) {
+                printField(indent, field.getName());
+                List list = (List) field.get(mappedJson);
+                for (Object element : list)
+                    printField(indent + 2, element.toString());
+            } else {
                 printField(indent, field.getName());
                 printObject(indent + 2, field.get(mappedJson));
             }

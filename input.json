@@ -23,5 +23,9 @@
   "falsee": "false",
   "falsePrim": false,
   "twelvePrim": "12",
-  "nine": 93
+  "nine": 93,
+  "list": [
+    "1",
+    "2"
+  ]
 }
