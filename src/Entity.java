@@ -49,5 +49,10 @@ class Entity {
 
     boolean falsePrim;
 
-    int twelvePrim;
+    short twelvePrim;
+
+    @JsonAnnotation("twelvePrim")
+    char onee;
+    
+    char nine;
 }

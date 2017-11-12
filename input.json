@@ -22,5 +22,6 @@
   "truee": true,
   "falsee": "false",
   "falsePrim": false,
-  "twelvePrim": "12"
+  "twelvePrim": "12",
+  "nine": 93
 }

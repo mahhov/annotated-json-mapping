@@ -18,18 +18,10 @@ public class Mapper {
 
         for (Field field : fields) {
             Path path = getPath(basePath, field);
-            if (isString(field)) {
+
+            if (FieldType.isSimple(field)) {
                 Object value = applyPath(jsonObj, path);
-                if (value != null)
-                    field.set(mappedJson, String.valueOf(value));
-            } else if (isNumeric(field)) {
-                Object value = applyPath(jsonObj, path);
-                if (value != null)
-                    field.set(mappedJson, Integer.valueOf(value.toString()));
-            } else if (isBoolean(field)) {
-                Object value = applyPath(jsonObj, path);
-                if (value != null)
-                    field.set(mappedJson, Boolean.valueOf(value.toString()));
+                FieldType.setSimple(mappedJson, field, value);
             } else
                 field.set(mappedJson, map(field.getType(), path, jsonInput));
         }
@@ -75,7 +67,7 @@ public class Mapper {
 
     private static void printObject(int indent, Object mappedJson) throws Exception {
         for (Field field : mappedJson.getClass().getDeclaredFields())
-            if (isString(field) || isNumeric(field) || isBoolean(field))
+            if (FieldType.isSimple(field))
                 printField(indent, field.getName(), field.get(mappedJson));
             else {
                 printField(indent, field.getName());
@@ -89,23 +81,5 @@ public class Mapper {
 
     private static void printField(int indent, String name, Object value) {
         System.out.printf("%" + (indent + 1) + "s %-10s: %s\n", "", name, value);
-    }
-
-    private static boolean isString(Field field) {
-        return field.getType() == String.class;
-    }
-
-    private static boolean isNumeric(Field field) {
-        return field.getType() == int.class || field.getType() == Integer.class;
-        //                field.getType() == short.class || field.getType() == Short.class ||
-        //                field.getType() == byte.class || field.getType() == Byte.class ||
-        //                field.getType() == long.class || field.getType() == Long.class ||
-        //                field.getType() == double.class || field.getType() == Double.class ||
-        //                field.getType() == float.class || field.getType() == Float.class ||
-        //                field.getType() == char.class || field.getType() == Character.class;
-    }
-
-    private static boolean isBoolean(Field field) {
-        return field.getType() == boolean.class || field.getType() == Boolean.class;
     }
 }
