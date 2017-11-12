@@ -25,7 +25,7 @@ class Entity {
         String fiveMap;
     }
 
-    @JsonAnnotation()
+    @JsonAnnotation(debug = true)
     Y ten;
 
     @JsonAnnotation("tw")

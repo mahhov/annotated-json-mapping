@@ -7,4 +7,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @interface JsonAnnotation {
     String value() default "";
+
+    boolean debug() default false;
 }

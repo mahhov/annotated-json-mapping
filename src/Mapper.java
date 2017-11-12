@@ -29,12 +29,21 @@ public class Mapper {
 
     private static Path getPath(Path basePath, Field field) {
         JsonAnnotation annotation = (JsonAnnotation) field.getAnnotation(JsonAnnotation.class);
+
+        Path path;
         if (annotation == null)
-            return Path.append(basePath, field.getName());
-        else if (Path.isLeaf(annotation.value()))
-            return Path.append(basePath, annotation.value());
-        else
-            return Path.append(basePath, annotation.value() + field.getName());
+            path = Path.append(basePath, field.getName());
+        else {
+            if (Path.isLeaf(annotation.value()))
+                path = Path.append(basePath, annotation.value());
+            else
+                path = Path.append(basePath, annotation.value() + field.getName());
+
+            if (annotation.debug())
+                System.out.println("DEBUG " + field.getName() + " - " + path);
+        }
+
+        return path;
     }
 
     private static Object applyPath(JSONObject jsonObj, Path path) {
