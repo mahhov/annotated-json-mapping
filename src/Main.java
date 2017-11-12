@@ -14,6 +14,5 @@ class Main<T> {
 
 
 // todo: arrays
-// todo: parent dirs
 // todo: conditional mappings
 // todo: primitives

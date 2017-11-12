@@ -18,10 +18,10 @@ class Entity {
     static class X {
         String two;
 
-        @JsonAnnotation("../")
+        @JsonAnnotation("^/")
         String zero;
 
-        @JsonAnnotation("../m")
+        @JsonAnnotation("^/five")
         String fiveMap;
     }
 

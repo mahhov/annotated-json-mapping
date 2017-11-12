@@ -61,7 +61,8 @@ public class Mapper {
     private static Object applyPath(JSONObject jsonObj, Path path) {
         try {
             for (int i = 0; i < path.segments.length - 1; i++)
-                jsonObj = jsonObj.getJSONObject(path.segments[i]);
+                if (!path.segments[i].isEmpty())
+                    jsonObj = jsonObj.getJSONObject(path.segments[i]);
             return jsonObj.get(path.segments[path.segments.length - 1]);
         } catch (JSONException e) {
             return null;
