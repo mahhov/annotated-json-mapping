@@ -40,4 +40,14 @@ class Entity {
     static class Y {
         Integer w;
     }
+
+    String trueStr;
+
+    Boolean truee;
+
+    Boolean falsee;
+
+    boolean falsePrim;
+
+    int twelvePrim;
 }

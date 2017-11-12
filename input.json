@@ -17,5 +17,10 @@
     "fourty": {
       "w": 40
     }
-  }
+  },
+  "trueStr": true,
+  "truee": true,
+  "falsee": "false",
+  "falsePrim": false,
+  "twelvePrim": "12"
 }
