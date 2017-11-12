@@ -38,6 +38,6 @@ class Entity {
     Y fourty;
 
     static class Y {
-        String w;
+        Integer w;
     }
 }

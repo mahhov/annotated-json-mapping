@@ -18,9 +18,15 @@ public class Mapper {
 
         for (Field field : fields) {
             Path path = getPath(basePath, field);
-            if (field.getType() == String.class)
-                field.set(mappedJson, applyPath(jsonObj, path));
-            else
+            if (field.getType() == String.class) {
+                Object value = applyPath(jsonObj, path);
+                if (value != null)
+                    field.set(mappedJson, value.toString());
+            } else if (field.getType() == Integer.class) {
+                Object value = applyPath(jsonObj, path);
+                if (value != null)
+                    field.set(mappedJson, Integer.valueOf(value.toString()));
+            } else
                 field.set(mappedJson, map(field.getType(), path, jsonInput));
         }
 
@@ -54,8 +60,8 @@ public class Mapper {
                 jsonObj = jsonObj.getJSONObject(path.segments[i]);
             return jsonObj.get(path.segments[path.segments.length - 1]);
         } catch (JSONException e) {
+            return null;
         }
-        return null;
     }
 
     public static void printObject(Object mappedJson) throws Exception {
@@ -64,7 +70,7 @@ public class Mapper {
 
     private static void printObject(int indent, Object mappedJson) throws Exception {
         for (Field field : mappedJson.getClass().getDeclaredFields())
-            if (field.getType() == String.class)
+            if (field.getType() == String.class || field.getType() == Integer.class)
                 printField(indent, field.getName(), field.get(mappedJson));
             else {
                 printField(indent, field.getName());
