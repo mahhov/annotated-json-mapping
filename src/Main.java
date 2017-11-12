@@ -8,6 +8,6 @@ class Main<T> {
         String jsonInput = new String(Files.readAllBytes(Paths.get(JSON_INPUT)));
 
         Entity mappedJson = (Entity) Mapper.map(Entity.class, jsonInput);
-        Mapper.print(mappedJson);
+        Mapper.printObject(mappedJson);
     }
 }

@@ -20,7 +20,7 @@ public class Mapper {
             Path path = getPath(basePath, field);
             if (field.getType() == String.class)
                 field.set(mappedJson, applyPath(jsonObj, path));
-            else 
+            else
                 field.set(mappedJson, map(field.getType(), path, jsonInput));
         }
 
@@ -47,8 +47,25 @@ public class Mapper {
         return null;
     }
 
-    public static void print(Object mappedJson) throws Exception {
+    public static void printObject(Object mappedJson) throws Exception {
+        printObject(0, mappedJson);
+    }
+
+    private static void printObject(int indent, Object mappedJson) throws Exception {
         for (Field field : mappedJson.getClass().getDeclaredFields())
-            System.out.printf("%-10s: %s\n", field.getName(), field.get(mappedJson));
+            if (field.getType() == String.class)
+                printField(indent, field.getName(), field.get(mappedJson));
+            else {
+                printField(indent, field.getName());
+                printObject(indent + 2, field.get(mappedJson));
+            }
+    }
+
+    private static void printField(int indent, String name) {
+        System.out.printf("%" + (indent + 1) + "s %-10s\n", "", name);
+    }
+
+    private static void printField(int indent, String name, Object value) {
+        System.out.printf("%" + (indent + 1) + "s %-10s: %s\n", "", name, value);
     }
 }
