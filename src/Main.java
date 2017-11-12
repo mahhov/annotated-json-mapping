@@ -11,3 +11,9 @@ class Main<T> {
         Mapper.printObject(mappedJson);
     }
 }
+
+
+// todo: arrays
+// todo: parent dirs
+// todo: conditional mappings
+// todo: primitives
