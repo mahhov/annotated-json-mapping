@@ -20,10 +20,6 @@ public class Path {
     }
 
     public String toString() {
-        StringBuilder s = new StringBuilder("(" + value + ") ");
-        for (int i = 0; i < segments.length - 1; i++)
-            s.append(segments[i]).append(" / ");
-        s.append(segments[segments.length - 1]);
-        return s.toString();
+        return value;
     }
 }

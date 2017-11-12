@@ -25,14 +25,17 @@ class Entity {
         String fiveMap;
     }
 
-    @JsonAnnotation(debug = true)
+    @JsonAnnotation()
     Y ten;
 
     @JsonAnnotation("tw")
     Y twenty;
 
-    @JsonAnnotation("tw/tr/")
+    @JsonAnnotation("tw/tr")
     Y thirty;
+
+    @JsonAnnotation("fr/")
+    Y fourty;
 
     static class Y {
         String w;

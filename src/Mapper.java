@@ -34,7 +34,9 @@ public class Mapper {
         if (annotation == null)
             path = Path.append(basePath, field.getName());
         else {
-            if (Path.isLeaf(annotation.value()))
+            if (annotation.value().isEmpty())
+                path = basePath;
+            else if (Path.isLeaf(annotation.value()))
                 path = Path.append(basePath, annotation.value());
             else
                 path = Path.append(basePath, annotation.value() + field.getName());
