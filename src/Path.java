@@ -22,33 +22,33 @@ class Path {
 
         // . (array index) and convert to segments
         segments = new Segment[nonBlanks.size()];
-        int array;
-        boolean[] availableArrays = new boolean[nonBlanks.size()];
+        boolean[] consumedArrays = new boolean[nonBlanks.size()];
         int nextArray = 0;
         int count = 0;
         while (nonBlanks.size() > 0) {
-            String[] valueArraySplit = value.split("\\.");
-            this.value = valueArraySplit[0];
-            if (valueArraySplit.length > 1)
-                if (valueArraySplit[1].isEmpty()) {
-                    while (!availableArrays[nextArray])
+            String segmentStr = segmentStrs[nonBlanks.popFront()];
+            if (segmentStr.contains(".")) {
+                String[] segmentArraySplit = segmentStr.split("\\.");
+                int array;
+                if (segmentArraySplit.length > 1) {
+                    array = Integer.valueOf(segmentArraySplit[1]);
+                    consumedArrays[array] = true;
+                } else {
+                    while (consumedArrays[nextArray])
                         nextArray++;
                     array = nextArray;
-                } else {
-                    array = Integer.valueOf(valueArraySplit[1]);
-                    availableArrays[array] = false;
                 }
-            else
-                array = -1;
-            segments[count++] = new Segment(segmentStrs[nonBlanks.popFront()], array);
+                segments[count++] = new Segment(segmentArraySplit[0], array);
+            } else
+                segments[count++] = new Segment(segmentStr, -1);
         }
 
         // value
         StringBuilder valueBuilder = new StringBuilder(value.length());
         for (int i = 0; i < segments.length - 1; i++)
-            valueBuilder.append(segments[i].value).append("/");
+            valueBuilder.append(segments[i]).append("/");
         if (segments.length > 0)
-            valueBuilder.append(segments[segments.length - 1].value);
+            valueBuilder.append(segments[segments.length - 1]);
         this.value = valueBuilder.toString();
     }
 
@@ -98,6 +98,12 @@ class Path {
         private Segment(String value, int array) {
             this.value = value;
             this.array = array;
+        }
+
+        public String toString() {
+            if (array == -1)
+                return value;
+            return value + "." + array;
         }
     }
 }

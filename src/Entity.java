@@ -60,10 +60,10 @@ class Entity {
 
     ArrayList<String> list;
 
-    @JsonAnnotation("list")
+    @JsonAnnotation("list.")
     ArrayList listGeneric;
 
-    @JsonAnnotation("list")
+    @JsonAnnotation("list.")
     ArrayList<Integer> intList;
 
     //        @JsonAnnotation("list")
