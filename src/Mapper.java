@@ -10,10 +10,10 @@ import java.util.List;
 
 class Mapper {
     static Object map(Class clazz, String jsonInput) throws Exception {
-        return mapObject(clazz, new Path(""), new JSONObject(jsonInput));
+        return mapObject(clazz, new Path(""), new JSONObject(jsonInput), new int[0]);
     }
 
-    private static Object mapObject(Class clazz, Path basePath, JSONObject jsonObj) throws Exception {
+    private static Object mapObject(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         Field[] fields = clazz.getDeclaredFields();
 
         Object mappedJson = clazz.getDeclaredConstructor().newInstance();
@@ -21,15 +21,15 @@ class Mapper {
         for (Field field : fields) {
             if (TypeCatagorizer.isSimple(field.getType())) {
                 Path path = Path.createPath(basePath, field, false);
-                Object simpleValue = applyPath(jsonObj, path);
+                Object simpleValue = applyPath(jsonObj, path, indices);
                 field.set(mappedJson, TypeCatagorizer.getSimpleValue(field.getType(), simpleValue));
             } else if (TypeCatagorizer.isList(field.getType())) {
                 Path path = Path.createPath(basePath, field, true);
-                List list = mapList(field, path, jsonObj);
+                List list = mapList(field, path, jsonObj, indices);
                 field.set(mappedJson, list);
             } else {
                 Path path = Path.createPath(basePath, field, false);
-                Object objectValue = mapObject(field.getType(), path, jsonObj);
+                Object objectValue = mapObject(field.getType(), path, jsonObj, indices);
                 field.set(mappedJson, objectValue);
             }
         }
@@ -37,34 +37,37 @@ class Mapper {
         return mappedJson;
     }
 
-    private static List mapList(Field field, Path path, JSONObject jsonObj) throws Exception {
+    private static List mapList(Field field, Path path, JSONObject jsonObj, int[] indices) throws Exception {
         Type genericType = field.getGenericType();
         if (genericType instanceof ParameterizedType) {
             Type type = ((ParameterizedType) genericType).getActualTypeArguments()[0];
             if (TypeCatagorizer.isSimple(type))
-                return mapListSimples((Class) type, path, jsonObj);
+                return mapListSimples((Class) type, path, jsonObj, indices);
             else
-                return mapListObjects((Class) type, path, jsonObj);
+                return mapListObjects((Class) type, path, jsonObj, indices);
         } else
-            return mapListSimples(String.class, path, jsonObj);
+            return mapListSimples(String.class, path, jsonObj, indices);
     }
 
-    private static List mapListSimples(Class clazz, Path basePath, JSONObject jsonObj) throws Exception {
-        JSONArray values = (JSONArray) applyPath(jsonObj, basePath);
-        if (values == null)
-            return null;
-
+    private static List mapListSimples(Class clazz, Path path, JSONObject jsonObj, int[] indices) throws Exception {
         List list = new ArrayList();
-        for (int i = 0; i < values.length(); i++)
-            list.add(TypeCatagorizer.getSimpleValue(clazz, values.get(i)));
+        boolean done = false;
+        while (!done) { // todo: loop correct ammount
+            int[] nextIndices = ArrayGrower.append(indices, 0);
+            Object simpleValue = applyPath(jsonObj, path, nextIndices);
+            list.add(TypeCatagorizer.getSimpleValue(clazz, simpleValue));
+            done = true;
+        }
+
         return list;
     }
 
-    private static List mapListObjects(Class clazz, Path basePath, JSONObject jsonObj) throws Exception {
+    private static List mapListObjects(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         List list = new ArrayList();
         boolean done = false;
-        while (!done) { // todo: fix infinite loop
-            Object obj = mapObject(clazz, basePath, jsonObj);
+        while (!done) { // todo: loop correct ammount
+            int[] nextIndices = ArrayGrower.append(indices, 0);
+            Object obj = mapObject(clazz, basePath, jsonObj, indices);
             list.add(TypeCatagorizer.getSimpleValue(clazz, obj));
             done = true;
         }
@@ -72,13 +75,22 @@ class Mapper {
         return list;
     }
 
-    private static Object applyPath(JSONObject jsonObj, Path path) {
+    private static Object applyPath(JSONObject jsonObj, Path path, int[] indices) {
+        // todo refactor
         try {
             if (path.segments.length == 0)
                 return null;
-            for (int i = 0; i < path.segments.length - 1; i++)
+
+            for (int i = 0; i < path.segments.length - 1; i++) {
                 jsonObj = jsonObj.getJSONObject(path.segments[i].value);
-            return jsonObj.get(path.segments[path.segments.length - 1].value);
+                if (path.segments[i].array != -1)
+                    jsonObj = jsonObj.getJSONArray(path.segments[i].value).getJSONObject(indices[path.segments[i].array]);
+            }
+            Path.Segment lastSegment = path.segments[path.segments.length - 1];
+            if (lastSegment.array != -1)
+                return jsonObj.getJSONArray(lastSegment.value).get(indices[lastSegment.array]);
+            else
+                return jsonObj.get(lastSegment.value);
         } catch (JSONException e) {
             return null;
         }
