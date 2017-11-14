@@ -1,3 +1,4 @@
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -44,6 +45,12 @@ class TypeCatagorizer {
 
     static boolean isList(Type type) {
         return List.class.isAssignableFrom((Class) type); // || type.isArray();
+    }
+
+    static Type getListType(Type genericType) {
+        if (genericType instanceof ParameterizedType)
+            return ((ParameterizedType) genericType).getActualTypeArguments()[0];
+        return String.class;
     }
 
     static Object convertSimpleValue(Class clazz, Object value) throws Exception {

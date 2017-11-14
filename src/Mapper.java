@@ -2,7 +2,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +36,10 @@ class Mapper {
     }
 
     private static List mapList(Field field, Path path, JSONObject jsonObj, int[] indices) throws Exception {
-        Type genericType = field.getGenericType();
-        if (genericType instanceof ParameterizedType) {
-            Type type = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-            if (TypeCatagorizer.isSimple(type))
-                return mapListSimples((Class) type, path, jsonObj, indices);
-            else
-                return mapListObjects((Class) type, path, jsonObj, indices);
-        } else
-            return mapListSimples(String.class, path, jsonObj, indices);
+        Type listType = TypeCatagorizer.getListType(field.getGenericType());
+        if (TypeCatagorizer.isSimple(listType))
+            return mapListSimples((Class) listType, path, jsonObj, indices);
+        return mapListObjects((Class) listType, path, jsonObj, indices);
     }
 
     private static List mapListSimples(Class clazz, Path path, JSONObject jsonObj, int[] indices) throws Exception {

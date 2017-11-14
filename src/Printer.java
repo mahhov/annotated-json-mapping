@@ -16,8 +16,12 @@ class Printer {
                     printField(indent, field.getName(), "null"); // todo: make sure lists are never null
                 else {
                     printField(indent, field.getName());
-                    for (Object element : list)
-                        printField(indent + 2, element != null ? element.toString() : null); // todo: printing for non-simple lists
+                    if (TypeCatagorizer.isSimple(TypeCatagorizer.getListType(field.getGenericType())))
+                        for (Object element : list)
+                            printField(indent + 2, element != null ? element.toString() : null);
+                    else
+                        for (Object element : list)
+                            printObject(indent + 2, element);
                 }
             } else {
                 printField(indent, field.getName());
