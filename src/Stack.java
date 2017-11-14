@@ -1,16 +1,25 @@
-public class Stack<T> {
-    private int size;
+class Stack<T> {
+    private int back;
+    private int front;
     private T[] values;
 
-    public Stack(int size) {
+    Stack(int size) {
         this.values = (T[]) new Object[size];
     }
 
-    public void push(T value) {
-        values[size++] = value;
+    void push(T value) {
+        values[back++] = value;
     }
 
-    public T pop() {
-        return values[--size];
+    T pop() {
+        return values[--back];
+    }
+
+    T popFront() {
+        return values[front++];
+    }
+
+    int size() {
+        return back - front;
     }
 }

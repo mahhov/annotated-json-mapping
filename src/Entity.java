@@ -59,4 +59,19 @@ class Entity {
     char nine;
 
     ArrayList<String> list;
+
+    @JsonAnnotation("list")
+    ArrayList listGeneric;
+
+    @JsonAnnotation("list")
+    ArrayList<Integer> intList;
+
+    //        @JsonAnnotation("list")
+    //        ArrayList<Z> objList;
+
+    // todo support list declarations (arraylist / linked list as defined in entity )
+
+    static class Z {
+        int x;
+    }
 }

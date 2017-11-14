@@ -3,94 +3,84 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Mapper {
-    public static Object map(Class clazz, String jsonInput) throws Exception {
-        return map(clazz, new Path(""), jsonInput);
+class Mapper {
+    static Object map(Class clazz, String jsonInput) throws Exception {
+        return mapObject(clazz, new Path(""), new JSONObject(jsonInput));
     }
 
-    private static Object map(Class clazz, Path basePath, String jsonInput) throws Exception {
+    private static Object mapObject(Class clazz, Path basePath, JSONObject jsonObj) throws Exception {
         Field[] fields = clazz.getDeclaredFields();
-        JSONObject jsonObj = new JSONObject(jsonInput);
 
         Object mappedJson = clazz.getDeclaredConstructor().newInstance();
 
         for (Field field : fields) {
-            Path path = getPath(basePath, field);
-
-            if (ClassCatagorizer.isSimple(field)) {
-                Object value = applyPath(jsonObj, path);
-                ClassCatagorizer.setSimple(mappedJson, field, value);
-            } else if (ClassCatagorizer.isList(field)) {
-                List list = (List) field.getType().getDeclaredConstructor().newInstance();
+            if (TypeCatagorizer.isSimple(field.getType())) {
+                Path path = Path.createPath(basePath, field, false);
+                Object simpleValue = applyPath(jsonObj, path);
+                field.set(mappedJson, TypeCatagorizer.getSimpleValue(field.getType(), simpleValue));
+            } else if (TypeCatagorizer.isList(field.getType())) {
+                Path path = Path.createPath(basePath, field, true);
+                List list = mapList(field, path, jsonObj);
                 field.set(mappedJson, list);
-                JSONArray value = (JSONArray) applyPath(jsonObj, path);
-                for (int i = 0; i < value.length(); i++)
-                    list.add(String.valueOf(value.get(i)));
-            } else
-                field.set(mappedJson, map(field.getType(), path, jsonInput));
+            } else {
+                Path path = Path.createPath(basePath, field, false);
+                Object objectValue = mapObject(field.getType(), path, jsonObj);
+                field.set(mappedJson, objectValue);
+            }
         }
 
         return mappedJson;
     }
 
-    private static Path getPath(Path basePath, Field field) {
-        JsonAnnotation annotation = (JsonAnnotation) field.getAnnotation(JsonAnnotation.class);
-
-        Path path;
-        if (annotation == null)
-            path = Path.append(basePath, field.getName());
-        else {
-            if (annotation.value().isEmpty())
-                path = basePath;
-            else if (Path.isLeaf(annotation.value()))
-                path = Path.append(basePath, annotation.value());
+    private static List mapList(Field field, Path path, JSONObject jsonObj) throws Exception {
+        Type genericType = field.getGenericType();
+        if (genericType instanceof ParameterizedType) {
+            Type type = ((ParameterizedType) genericType).getActualTypeArguments()[0];
+            if (TypeCatagorizer.isSimple(type))
+                return mapListSimples((Class) type, path, jsonObj);
             else
-                path = Path.append(basePath, annotation.value() + field.getName());
+                return mapListObjects((Class) type, path, jsonObj);
+        } else
+            return mapListSimples(String.class, path, jsonObj);
+    }
 
-            if (annotation.debug())
-                System.out.println("DEBUG " + field.getName() + " - " + path);
+    private static List mapListSimples(Class clazz, Path basePath, JSONObject jsonObj) throws Exception {
+        JSONArray values = (JSONArray) applyPath(jsonObj, basePath);
+        if (values == null)
+            return null;
+
+        List list = new ArrayList();
+        for (int i = 0; i < values.length(); i++)
+            list.add(TypeCatagorizer.getSimpleValue(clazz, values.get(i)));
+        return list;
+    }
+
+    private static List mapListObjects(Class clazz, Path basePath, JSONObject jsonObj) throws Exception {
+        List list = new ArrayList();
+        boolean done = false;
+        while (!done) { // todo: fix infinite loop
+            Object obj = mapObject(clazz, basePath, jsonObj);
+            list.add(TypeCatagorizer.getSimpleValue(clazz, obj));
+            done = true;
         }
 
-        return path;
+        return list;
     }
 
     private static Object applyPath(JSONObject jsonObj, Path path) {
         try {
+            if (path.segments.length == 0)
+                return null;
             for (int i = 0; i < path.segments.length - 1; i++)
-                if (!path.segments[i].isEmpty())
-                    jsonObj = jsonObj.getJSONObject(path.segments[i]);
-            return jsonObj.get(path.segments[path.segments.length - 1]);
+                jsonObj = jsonObj.getJSONObject(path.segments[i].value);
+            return jsonObj.get(path.segments[path.segments.length - 1].value);
         } catch (JSONException e) {
             return null;
         }
-    }
-
-    public static void printObject(Object mappedJson) throws Exception {
-        printObject(0, mappedJson);
-    }
-
-    private static void printObject(int indent, Object mappedJson) throws Exception {
-        for (Field field : mappedJson.getClass().getDeclaredFields())
-            if (ClassCatagorizer.isSimple(field))
-                printField(indent, field.getName(), field.get(mappedJson));
-            else if (ClassCatagorizer.isList(field)) {
-                printField(indent, field.getName());
-                List list = (List) field.get(mappedJson);
-                for (Object element : list)
-                    printField(indent + 2, element.toString());
-            } else {
-                printField(indent, field.getName());
-                printObject(indent + 2, field.get(mappedJson));
-            }
-    }
-
-    private static void printField(int indent, String name) {
-        System.out.printf("%" + (indent + 1) + "s %-10s\n", "", name);
-    }
-
-    private static void printField(int indent, String name, Object value) {
-        System.out.printf("%" + (indent + 1) + "s %-10s: %s\n", "", name, value);
     }
 }
