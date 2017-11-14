@@ -2,39 +2,39 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 class TypeCatagorizer {
-    static boolean isString(Type type) {
+    private static boolean isString(Type type) {
         return type == String.class;
     }
 
-    static boolean isInteger(Type type) {
+    private static boolean isInteger(Type type) {
         return type == int.class || type == Integer.class;
     }
 
-    static boolean isShort(Type type) {
+    private static boolean isShort(Type type) {
         return type == short.class || type == Short.class;
     }
 
-    static boolean isByte(Type type) {
+    private static boolean isByte(Type type) {
         return type == byte.class || type == Byte.class;
     }
 
-    static boolean isLong(Type type) {
+    private static boolean isLong(Type type) {
         return type == long.class || type == Long.class;
     }
 
-    static boolean isDouble(Type type) {
+    private static boolean isDouble(Type type) {
         return type == double.class || type == Double.class;
     }
 
-    static boolean isFloat(Type type) {
+    private static boolean isFloat(Type type) {
         return type == float.class || type == Float.class;
     }
 
-    static boolean isChar(Type type) {
+    private static boolean isChar(Type type) {
         return type == char.class || type == Character.class;
     }
 
-    static boolean isBoolean(Type type) {
+    private static boolean isBoolean(Type type) {
         return type == boolean.class || type == Boolean.class;
     }
 

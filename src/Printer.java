@@ -13,13 +13,13 @@ class Printer {
             else if (TypeCatagorizer.isList(field.getType())) {
                 List list = (List) field.get(mappedJson);
                 if (list == null)
-                    printField(indent, field.getName(), "null");
+                    printField(indent, field.getName(), "null"); // todo: make sure lists are never null
                 else {
                     printField(indent, field.getName());
                     for (Object element : list)
                         printField(indent + 2, element != null ? element.toString() : null); // todo: printing for non-simple lists
                 }
-            } else { // todo: do we need null check for unmapped obj ?
+            } else {
                 printField(indent, field.getName());
                 printObject(indent + 2, field.get(mappedJson));
             }

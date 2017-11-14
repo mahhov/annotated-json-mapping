@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 
 class Entity {
-    @JsonAnnotation("listz.")
-    ArrayList<Z> objList;
-
     @JsonAnnotation("three")
     String threeMap;
 
@@ -69,6 +66,9 @@ class Entity {
 
     @JsonAnnotation("list.")
     ArrayList<Integer> intList;
+
+    @JsonAnnotation("listz.")
+    ArrayList<Z> objList;
 
     static class Z {
         @JsonAnnotation("x")

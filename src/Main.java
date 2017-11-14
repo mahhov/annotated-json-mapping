@@ -1,7 +1,7 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-class Main<T> {
+class Main {
     private static final String JSON_INPUT = "input.json";
 
     public static void main(String[] arg) throws Exception {
