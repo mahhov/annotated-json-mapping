@@ -1,4 +1,3 @@
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +21,7 @@ class Mapper {
             if (TypeCatagorizer.isSimple(field.getType())) {
                 Path path = Path.createPath(basePath, field, false);
                 Object simpleValue = applyPath(jsonObj, path, indices);
-                field.set(mappedJson, TypeCatagorizer.getSimpleValue(field.getType(), simpleValue));
+                field.set(mappedJson, TypeCatagorizer.convertSimpleValue(field.getType(), simpleValue));
             } else if (TypeCatagorizer.isList(field.getType())) {
                 Path path = Path.createPath(basePath, field, true);
                 List list = mapList(field, path, jsonObj, indices);
@@ -55,7 +54,7 @@ class Mapper {
         while (!done) { // todo: loop correct ammount
             int[] nextIndices = ArrayGrower.append(indices, 0);
             Object simpleValue = applyPath(jsonObj, path, nextIndices);
-            list.add(TypeCatagorizer.getSimpleValue(clazz, simpleValue));
+            list.add(TypeCatagorizer.convertSimpleValue(clazz, simpleValue));
             done = true;
         }
 
@@ -67,8 +66,8 @@ class Mapper {
         boolean done = false;
         while (!done) { // todo: loop correct ammount
             int[] nextIndices = ArrayGrower.append(indices, 0);
-            Object obj = mapObject(clazz, basePath, jsonObj, indices);
-            list.add(TypeCatagorizer.getSimpleValue(clazz, obj));
+            Object obj = mapObject(clazz, basePath, jsonObj, nextIndices);
+            list.add(obj);
             done = true;
         }
 
@@ -82,9 +81,10 @@ class Mapper {
                 return null;
 
             for (int i = 0; i < path.segments.length - 1; i++) {
-                jsonObj = jsonObj.getJSONObject(path.segments[i].value);
                 if (path.segments[i].array != -1)
                     jsonObj = jsonObj.getJSONArray(path.segments[i].value).getJSONObject(indices[path.segments[i].array]);
+                else
+                    jsonObj = jsonObj.getJSONObject(path.segments[i].value);
             }
             Path.Segment lastSegment = path.segments[path.segments.length - 1];
             if (lastSegment.array != -1)

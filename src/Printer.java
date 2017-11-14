@@ -17,9 +17,9 @@ class Printer {
                 else {
                     printField(indent, field.getName());
                     for (Object element : list)
-                        printField(indent + 2, element.toString());
+                        printField(indent + 2, element != null ? element.toString() : null); // todo: printing for non-simple lists
                 }
-            } else {
+            } else { // todo: do we need null check for unmapped obj ?
                 printField(indent, field.getName());
                 printObject(indent + 2, field.get(mappedJson));
             }

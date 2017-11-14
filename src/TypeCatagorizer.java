@@ -46,7 +46,7 @@ class TypeCatagorizer {
         return List.class.isAssignableFrom((Class) type); // || type.isArray();
     }
 
-    static Object getSimpleValue(Class clazz, Object value) throws Exception {
+    static Object convertSimpleValue(Class clazz, Object value) throws Exception {
         if (value == null)
             return null;
 
