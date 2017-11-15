@@ -19,6 +19,10 @@ class Stack<T> {
         return values[front++];
     }
 
+    T getFront(int index) {
+        return values[front + index];
+    }
+
     int size() {
         return back - front;
     }
