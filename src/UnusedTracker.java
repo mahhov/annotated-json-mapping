@@ -20,8 +20,11 @@ class UnusedTracker<T> {
     }
 
     private void moveFirstUsed() {
-        while (++firstUnused == useds.getFirst())
+        Integer first = useds.getFirst();
+        while (first != null && ++firstUnused == first) {
             useds.removeFirst();
+            first = useds.getFirst();
+        }
     }
 
     boolean isUsed(int index) {

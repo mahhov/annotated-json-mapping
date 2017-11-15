@@ -1,10 +1,12 @@
 import java.lang.reflect.Field;
 
 class Path {
+    static final Path EMPTY_PATH = new Path("");
+
     private String value;
     Segment[] segments;
 
-    Path(String value) {
+    private Path(String value) {
         // ~ (base path)
         String[] shortenValue = value.split("~");
 
@@ -22,34 +24,32 @@ class Path {
 
         // . (array index) and convert to segments
         segments = new Segment[nonBlanks.size()];
-        boolean[] consumedArrays = new boolean[nonBlanks.size()];
+        UnusedTracker consumedArrays = new UnusedTracker();
         int nextArray = 0;
         int count = 0;
         while (nonBlanks.size() > 0) {
             String segmentStr = segmentStrs[nonBlanks.popFront()];
             if (segmentStr.contains(".")) {
                 String[] segmentArraySplit = segmentStr.split("\\.");
-                int array;
+                String segmentValue = segmentArraySplit[0];
+                int segmentArray;
+                int segmentArrayLayers;
                 if (segmentArraySplit.length > 1) {
-                    array = Integer.valueOf(segmentArraySplit[1]);
-                    consumedArrays[array] = true;
+                    segmentArray = Integer.valueOf(segmentArraySplit[1]);
+                    segmentArrayLayers = Integer.valueOf(segmentArraySplit[2]);
                 } else {
-                    while (consumedArrays[nextArray])
-                        nextArray++;
-                    array = nextArray;
+                    nextArray = consumedArrays.getUnused();
+                    segmentArray = nextArray;
+                    segmentArrayLayers = 1;
                 }
-                segments[count++] = new Segment(segmentArraySplit[0], array);
+                consumedArrays.setUsed(segmentArray);
+                segments[count++] = new Segment(segmentValue, segmentArray, segmentArrayLayers);
             } else
-                segments[count++] = new Segment(segmentStr, -1);
+                segments[count++] = new Segment(segmentStr);
         }
 
         // value
-        StringBuilder valueBuilder = new StringBuilder(value.length());
-        for (int i = 0; i < segments.length - 1; i++)
-            valueBuilder.append(segments[i]).append("/");
-        if (segments.length > 0)
-            valueBuilder.append(segments[segments.length - 1]);
-        this.value = valueBuilder.toString();
+        createValue();
     }
 
     static Path createPath(Path basePath, Field field, boolean list) {
@@ -83,8 +83,24 @@ class Path {
             return new Path(basePath.value + value);
     }
 
+    static Path nestList(Path basePath) {
+        Path nestedPath = new Path(basePath.value);
+        nestedPath.segments[nestedPath.segments.length - 1].arrayLayers++;
+        nestedPath.createValue();
+        return nestedPath;
+    }
+
     private static boolean isLeaf(String value) {
         return !value.isEmpty() && value.charAt(value.length() - 1) != '/';
+    }
+
+    private void createValue() {
+        StringBuilder valueBuilder = new StringBuilder();
+        for (int i = 0; i < segments.length - 1; i++)
+            valueBuilder.append(segments[i]).append("/");
+        if (segments.length > 0)
+            valueBuilder.append(segments[segments.length - 1]);
+        value = valueBuilder.toString();
     }
 
     public String toString() {
@@ -94,16 +110,23 @@ class Path {
     static class Segment {
         String value;
         int array;
+        int arrayLayers;
 
-        private Segment(String value, int array) {
+        private Segment(String value) {
+            this.value = value;
+            this.array = -1;
+        }
+
+        private Segment(String value, int array, int arrayLayers) {
             this.value = value;
             this.array = array;
+            this.arrayLayers = arrayLayers;
         }
 
         public String toString() {
             if (array == -1)
                 return value;
-            return value + "." + array;
+            return value + "." + array + "." + arrayLayers;
         }
     }
 }

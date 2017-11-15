@@ -8,10 +8,13 @@ class Main {
         String jsonInput = new String(Files.readAllBytes(Paths.get(JSON_INPUT)));
 
         NestedListEntity mappedJson = (NestedListEntity) Mapper.map(NestedListEntity.class, jsonInput);
-        Printer.printObject(mappedJson);
+        if (mappedJson != null)
+            Printer.printObject(mappedJson);
     }
 }
 
 
 // todo: nested arrays
 // todo: conditional mappings
+// todo: test and generated docs
+// todo: break up into packagesgi

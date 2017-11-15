@@ -44,6 +44,8 @@ class TypeCatagorizer {
     }
 
     static boolean isList(Type type) {
+        if (type instanceof ParameterizedType)
+            type = ((ParameterizedType) type).getRawType();
         return List.class.isAssignableFrom((Class) type); // || type.isArray();
     }
 
