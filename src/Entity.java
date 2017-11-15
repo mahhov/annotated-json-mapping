@@ -76,7 +76,7 @@ class Entity {
         @JsonAnnotation("y")
         int y_51_53;
         @JsonAnnotation("^/listz2.")
-        int z_54_55;
+        int z_54_55_99;
         @JsonAnnotation("^/listz3./w")
         int w_56_57;
         @JsonAnnotation("")
@@ -87,7 +87,8 @@ class Entity {
     static class ZZ {
         String zzz;
     }
+
+    ZZ nullObj;
 }
 
 // todo: nested lists
-// todo: lists data of varying lengths

@@ -26,8 +26,13 @@ class Printer {
                         }
                 }
             } else {
-                printField(indent, field.getName());
-                printObject(indent + 2, field.get(mappedJson));
+                Object nestedObject = field.get(mappedJson);
+                if (nestedObject == null)
+                    printField(indent, field.getName(), "null");
+                else {
+                    printField(indent, field.getName());
+                    printObject(indent + 2, nestedObject);
+                }
             }
     }
 
