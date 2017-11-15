@@ -8,20 +8,22 @@ class UnusedTracker<T> {
 
     int getUnused() {
         int r = firstUnused;
-        moveFirstUsed();
+        moveFirstUnused();
         return r;
     }
 
     void setUsed(int index) {
         if (index == firstUnused)
-            moveFirstUsed();
+            moveFirstUnused();
         else
             useds.sortedInsert(index);
     }
 
-    private void moveFirstUsed() {
+    private void moveFirstUnused() {
+        firstUnused++;
         Integer first = useds.getFirst();
-        while (first != null && ++firstUnused == first) {
+        while (first != null && firstUnused == first) {
+            firstUnused++;
             useds.removeFirst();
             first = useds.getFirst();
         }

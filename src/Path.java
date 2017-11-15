@@ -25,23 +25,14 @@ class Path {
         // . (array index) and convert to segments
         segments = new Segment[nonBlanks.size()];
         UnusedTracker consumedArrays = new UnusedTracker();
-        int nextArray = 0;
         int count = 0;
         while (nonBlanks.size() > 0) {
             String segmentStr = segmentStrs[nonBlanks.popFront()];
             if (segmentStr.contains(".")) {
                 String[] segmentArraySplit = segmentStr.split("\\.");
                 String segmentValue = segmentArraySplit[0];
-                int segmentArray;
-                int segmentArrayLayers;
-                if (segmentArraySplit.length > 1) {
-                    segmentArray = Integer.valueOf(segmentArraySplit[1]);
-                    segmentArrayLayers = Integer.valueOf(segmentArraySplit[2]);
-                } else {
-                    nextArray = consumedArrays.getUnused();
-                    segmentArray = nextArray;
-                    segmentArrayLayers = 1;
-                }
+                int segmentArray = segmentArraySplit.length > 1 ? Integer.valueOf(segmentArraySplit[1]) : consumedArrays.getUnused();
+                int segmentArrayLayers = segmentArraySplit.length > 2 ? Integer.valueOf(segmentArraySplit[2]) : 1;
                 consumedArrays.setUsed(segmentArray);
                 segments[count++] = new Segment(segmentValue, segmentArray, segmentArrayLayers);
             } else
