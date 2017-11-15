@@ -13,14 +13,17 @@ class Mapper {
 
     private static Object mapObject(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         Field[] fields = clazz.getDeclaredFields();
-
         Object mappedJson = clazz.getDeclaredConstructor().newInstance();
+        boolean empty = true;
 
         for (Field field : fields) {
             if (TypeCatagorizer.isSimple(field.getType())) {
                 Path path = Path.createPath(basePath, field, false);
                 Object simpleValue = applyPath(jsonObj, path, indices);
-                field.set(mappedJson, TypeCatagorizer.convertSimpleValue(field.getType(), simpleValue));
+                if (simpleValue != null) {
+                    empty = false;
+                    field.set(mappedJson, TypeCatagorizer.convertSimpleValue(field.getType(), simpleValue));
+                }
             } else if (TypeCatagorizer.isList(field.getType())) {
                 Path path = Path.createPath(basePath, field, true);
                 List list = mapList(field, path, jsonObj, indices);
@@ -28,10 +31,14 @@ class Mapper {
             } else {
                 Path path = Path.createPath(basePath, field, false);
                 Object objectValue = mapObject(field.getType(), path, jsonObj, indices);
+                if (objectValue != null)
+                    empty = false;
                 field.set(mappedJson, objectValue);
             }
         }
 
+        if (empty)
+            return null;
         return mappedJson;
     }
 
@@ -58,14 +65,14 @@ class Mapper {
 
     private static List mapListObjects(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         List list = new ArrayList();
-        ;
-        boolean done = false;
-        while (!done) { // todo: loop correct ammount
-            int[] nextIndices = ArrayGrower.append(indices, 0);
-            Object obj = mapObject(clazz, basePath, jsonObj, nextIndices);
-            list.add(obj);
-            done = true;
-        }
+        int i = 0;
+        Object value;
+        do {
+            int[] nextIndices = ArrayGrower.append(indices, i++);
+            value = mapObject(clazz, basePath, jsonObj, nextIndices);
+            if (value != null)
+                list.add(value);
+        } while (value != null);
 
         return list;
     }
