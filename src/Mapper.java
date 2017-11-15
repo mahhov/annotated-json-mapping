@@ -44,19 +44,21 @@ class Mapper {
 
     private static List mapListSimples(Class clazz, Path path, JSONObject jsonObj, int[] indices) throws Exception {
         List list = new ArrayList();
-        boolean done = false;
-        while (!done) { // todo: loop correct ammount
-            int[] nextIndices = ArrayGrower.append(indices, 0);
-            Object simpleValue = applyPath(jsonObj, path, nextIndices);
-            list.add(TypeCatagorizer.convertSimpleValue(clazz, simpleValue));
-            done = true;
-        }
+        int i = 0;
+        Object simpleValue;
+        do {
+            int[] nextIndices = ArrayGrower.append(indices, i++);
+            simpleValue = applyPath(jsonObj, path, nextIndices);
+            if (simpleValue != null)
+                list.add(TypeCatagorizer.convertSimpleValue(clazz, simpleValue));
+        } while (simpleValue != null);
 
         return list;
     }
 
     private static List mapListObjects(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         List list = new ArrayList();
+        ;
         boolean done = false;
         while (!done) { // todo: loop correct ammount
             int[] nextIndices = ArrayGrower.append(indices, 0);
