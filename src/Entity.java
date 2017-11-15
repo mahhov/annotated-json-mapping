@@ -91,4 +91,4 @@ class Entity {
     ZZ nullObj;
 }
 
-// todo: nested lists
+// todo : split out to mini entity test classes

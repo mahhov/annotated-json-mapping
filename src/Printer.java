@@ -13,7 +13,7 @@ class Printer {
             else if (TypeCatagorizer.isList(field.getType())) {
                 List list = (List) field.get(mappedJson);
                 if (list == null)
-                    printField(indent, field.getName(), "null"); // todo: make sure lists are never null
+                    printField(indent, field.getName(), "null");
                 else {
                     printField(indent, field.getName());
                     if (TypeCatagorizer.isSimple(TypeCatagorizer.getListType(field.getGenericType())))
@@ -44,3 +44,5 @@ class Printer {
         System.out.printf("%" + (indent + 1) + "s %-10s: %s\n", "", name, value);
     }
 }
+
+// todo : print list size with list name

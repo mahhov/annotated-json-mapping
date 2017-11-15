@@ -27,6 +27,8 @@ class Mapper {
             } else if (TypeCatagorizer.isList(field.getType())) {
                 Path path = Path.createPath(basePath, field, true);
                 List list = mapList(field, path, jsonObj, indices);
+                if (list.size() != 0)
+                    empty = false;
                 field.set(mappedJson, list);
             } else {
                 Path path = Path.createPath(basePath, field, false);
@@ -38,7 +40,7 @@ class Mapper {
         }
 
         if (empty)
-            return null;
+            return null; // todo: return mappedJson + null, and ony use null for list truncating
         return mappedJson;
     }
 
@@ -78,16 +80,16 @@ class Mapper {
     }
 
     private static Object applyPath(JSONObject jsonObj, Path path, int[] indices) {
-        // todo refactor
         try {
             if (path.segments.length == 0)
                 return null;
 
             for (int i = 0; i < path.segments.length - 1; i++) {
-                if (path.segments[i].array != -1)
-                    jsonObj = jsonObj.getJSONArray(path.segments[i].value).getJSONObject(indices[path.segments[i].array]);
+                Path.Segment segment = path.segments[i];
+                if (segment.array != -1)
+                    jsonObj = jsonObj.getJSONArray(segment.value).getJSONObject(indices[segment.array]);
                 else
-                    jsonObj = jsonObj.getJSONObject(path.segments[i].value);
+                    jsonObj = jsonObj.getJSONObject(segment.value);
             }
             Path.Segment lastSegment = path.segments[path.segments.length - 1];
             if (lastSegment.array != -1)
