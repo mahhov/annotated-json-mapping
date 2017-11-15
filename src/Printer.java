@@ -15,7 +15,7 @@ class Printer {
                 if (list == null)
                     printField(indent, field.getName(), "null");
                 else {
-                    printField(indent, field.getName());
+                    printField(indent, field.getName(), "(size " + list.size() + ")");
                     if (TypeCatagorizer.isSimple(TypeCatagorizer.getListType(field.getGenericType())))
                         for (Object element : list)
                             printField(indent + 2, element != null ? element.toString() : null);
@@ -44,5 +44,3 @@ class Printer {
         System.out.printf("%" + (indent + 1) + "s %-10s: %s\n", "", name, value);
     }
 }
-
-// todo : print list size with list name
