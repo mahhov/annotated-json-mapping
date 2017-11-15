@@ -7,9 +7,9 @@ class Main {
     public static void main(String[] arg) throws Exception {
         String jsonInput = new String(Files.readAllBytes(Paths.get(JSON_INPUT)));
 
-        NestedListEntity mappedJson = (NestedListEntity) Mapper.map(NestedListEntity.class, jsonInput);
-        if (mappedJson != null)
-            Printer.printObject(mappedJson);
+        NestedListEntity mappedObject = (NestedListEntity) Mapper.map(NestedListEntity.class, jsonInput);
+        if (mappedObject != null)
+            Printer.printObject(mappedObject);
     }
 }
 
