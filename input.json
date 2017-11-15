@@ -31,11 +31,19 @@
   "listz": [
     {
       "x": 50,
-      "y": 51
+      "y": 51,
+      "zzz": "zzz",
+      "zzImportant": {
+        "zzz": "zzzImportant/zzz"
+      }
     },
     {
       "x": 52,
-      "y": 53
+      "y": 53,
+      "zzz": "zzz2",
+      "zzImportant": {
+        "zzz": "zzzImportant/zzz2"
+      }
     }
   ],
   "listz2": [

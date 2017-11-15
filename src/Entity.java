@@ -79,8 +79,15 @@ class Entity {
         int z_54_55;
         @JsonAnnotation("^/listz3./w")
         int w_56_57;
+        @JsonAnnotation("")
+        ZZ zz;
+        ZZ zzImportant;
+    }
+
+    static class ZZ {
+        String zzz;
     }
 }
 
-// todo nested lists
-// todo nested objects within lists
+// todo: nested lists
+// todo: lists data of varying lengths
