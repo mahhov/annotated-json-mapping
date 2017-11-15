@@ -14,7 +14,6 @@ class Main {
 }
 
 
-// todo: nested arrays
 // todo: conditional mappings
 // todo: test and generated docs
 // todo: break up into packagesgi

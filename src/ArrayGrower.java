@@ -13,10 +13,7 @@ class ArrayGrower {
         return b;
     }
 
-    // todo : compare performance with System.arraycopy()
-    private static int[] copy(int[] a, int[] b) {
-        for (int i = 0; i < a.length; i++)
-            b[i] = a[i];
-        return b;
+    private static void copy(int[] a, int[] b) {
+        System.arraycopy(a, 0, b, 0, a.length);
     }
 }
