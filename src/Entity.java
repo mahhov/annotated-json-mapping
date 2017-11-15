@@ -75,9 +75,12 @@ class Entity {
         int x_50_52;
         @JsonAnnotation("y")
         int y_51_53;
-        //        @JsonAnnotation("^/listz2.")
-        //        int z_54_55;
-        //        @JsonAnnotation("^/listz3./w")
-        //        int w_56_57;
+        @JsonAnnotation("^/listz2.")
+        int z_54_55;
+        @JsonAnnotation("^/listz3./w")
+        int w_56_57;
     }
 }
+
+// todo nested lists
+// todo nested objects within lists

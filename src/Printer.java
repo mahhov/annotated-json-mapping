@@ -20,8 +20,10 @@ class Printer {
                         for (Object element : list)
                             printField(indent + 2, element != null ? element.toString() : null);
                     else
-                        for (Object element : list)
-                            printObject(indent + 2, element);
+                        for (int i = 0; i < list.size(); i++) {
+                            printField(indent + 2, i + "");
+                            printObject(indent + 4, list.get(i));
+                        }
                 }
             } else {
                 printField(indent, field.getName());
