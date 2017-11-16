@@ -1,6 +1,6 @@
 package utility;
 
-public class UnusedTracker<T> {
+public class UnusedTracker {
     private int firstUnused = 0;
     private SortedLinkedList<Integer> useds;
 
@@ -8,7 +8,7 @@ public class UnusedTracker<T> {
         useds = new SortedLinkedList<>();
     }
 
-    public int getUnused() {
+    public int nextUnused() {
         int r = firstUnused;
         moveFirstUnused();
         return r;

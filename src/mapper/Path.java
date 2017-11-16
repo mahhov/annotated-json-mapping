@@ -36,7 +36,7 @@ class Path {
             if (segmentStr.contains(".")) {
                 String[] segmentArraySplit = segmentStr.split("\\.");
                 String segmentValue = segmentArraySplit[0];
-                int segmentArray = segmentArraySplit.length > 1 ? Integer.valueOf(segmentArraySplit[1]) : consumedArrays.getUnused();
+                int segmentArray = segmentArraySplit.length > 1 ? Integer.valueOf(segmentArraySplit[1]) : consumedArrays.nextUnused();
                 int segmentArrayLayers = segmentArraySplit.length > 2 ? Integer.valueOf(segmentArraySplit[2]) : 1;
                 consumedArrays.setUsed(segmentArray);
                 segments[count++] = new Segment(segmentValue, segmentArray, segmentArrayLayers);
