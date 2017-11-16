@@ -1,18 +1,20 @@
-class UnusedTracker<T> {
+package utility;
+
+public class UnusedTracker<T> {
     private int firstUnused = 0;
     private SortedLinkedList<Integer> useds;
 
-    UnusedTracker() {
+    public UnusedTracker() {
         useds = new SortedLinkedList<>();
     }
 
-    int getUnused() {
+    public int getUnused() {
         int r = firstUnused;
         moveFirstUnused();
         return r;
     }
 
-    void setUsed(int index) {
+    public void setUsed(int index) {
         if (index == firstUnused)
             moveFirstUnused();
         else
@@ -29,7 +31,7 @@ class UnusedTracker<T> {
         }
     }
 
-    boolean isUsed(int index) {
+    public boolean isUsed(int index) {
         if (index < firstUnused)
             return true;
 

@@ -1,8 +1,10 @@
+package utility;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-class TypeCatagorizer {
+public class TypeCatagorizer {
     private static boolean isString(Type type) {
         return type == String.class;
     }
@@ -39,23 +41,23 @@ class TypeCatagorizer {
         return type == boolean.class || type == Boolean.class;
     }
 
-    static boolean isSimple(Type type) {
+    public static boolean isSimple(Type type) {
         return isString(type) || isInteger(type) || isShort(type) || isByte(type) || isLong(type) || isDouble(type) || isFloat(type) || isChar(type) || isBoolean(type);
     }
 
-    static boolean isList(Type type) {
+    public static boolean isList(Type type) {
         if (type instanceof ParameterizedType)
             type = ((ParameterizedType) type).getRawType();
         return List.class.isAssignableFrom((Class) type); // || type.isArray();
     }
 
-    static Type getListType(Type genericType) {
+    public static Type getListType(Type genericType) {
         if (genericType instanceof ParameterizedType)
             return ((ParameterizedType) genericType).getActualTypeArguments()[0];
         return String.class;
     }
 
-    static Object convertSimpleValue(Class clazz, Object value) throws Exception {
+    public static Object convertSimpleValue(Class clazz, Object value) throws Exception {
         if (value == null)
             return null;
 

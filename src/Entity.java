@@ -1,3 +1,5 @@
+import mapper.JsonAnnotation;
+
 import java.util.ArrayList;
 
 class Entity {

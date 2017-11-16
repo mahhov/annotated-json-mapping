@@ -1,23 +1,31 @@
+package mapper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import utility.ArrayGrower;
+import utility.TypeCatagorizer;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-class Mapper {
-    static Object map(Class clazz, String jsonInput) throws Exception {
+public class Mapper {
+    public static Object map(Class clazz, String jsonInput) throws Exception {
         return mapObject(clazz, Path.EMPTY_PATH, new JSONObject(jsonInput), new int[0]);
     }
 
     private static Object mapObject(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         Field[] fields = clazz.getDeclaredFields();
-        Object mappedJson = clazz.getDeclaredConstructor().newInstance();
+        Constructor declaredConstructor = clazz.getDeclaredConstructor();
+        declaredConstructor.setAccessible(true);
+        Object mappedJson = declaredConstructor.newInstance();
         boolean empty = true;
 
         for (Field field : fields) {
+            field.setAccessible(true);
             if (TypeCatagorizer.isSimple(field.getType())) {
                 Path path = Path.createPath(basePath, field, false);
                 Object simpleValue = applyPath(jsonObj, path, indices);

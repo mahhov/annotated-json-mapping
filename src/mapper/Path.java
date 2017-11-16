@@ -1,3 +1,8 @@
+package mapper;
+
+import utility.Stack;
+import utility.UnusedTracker;
+
 import java.lang.reflect.Field;
 
 class Path {

@@ -1,14 +1,19 @@
+package printer;
+
+import utility.TypeCatagorizer;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.List;
 
-class Printer {
-    static void printObject(Object mappedJson) throws Exception {
+public class Printer {
+    public static void printObject(Object mappedJson) throws Exception {
         printObject(0, mappedJson);
     }
 
     private static void printObject(int indent, Object mappedObject) throws Exception {
-        for (Field field : mappedObject.getClass().getDeclaredFields())
+        for (Field field : mappedObject.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
             if (TypeCatagorizer.isSimple(field.getType()))
                 printField(indent, field.getName(), field.get(mappedObject));
             else if (TypeCatagorizer.isList(field.getType())) {
@@ -28,6 +33,7 @@ class Printer {
                     printObject(indent + 2, nestedObject);
                 }
             }
+        }
     }
 
     private static void printList(int indent, Type listType, List list) throws Exception {

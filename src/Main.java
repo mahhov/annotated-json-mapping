@@ -1,3 +1,6 @@
+import mapper.Mapper;
+import printer.Printer;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -16,4 +19,3 @@ class Main {
 
 // todo: conditional mappings
 // todo: test and generated docs
-// todo: break up into packagesgi
