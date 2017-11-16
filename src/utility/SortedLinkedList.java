@@ -19,6 +19,9 @@ class SortedLinkedList<T extends Comparable<T>> implements Iterable<T> {
         if (head == null)
             head = new Node(value);
 
+        else if (head.value.compareTo(value) > 0)
+            head = new Node(value, head);
+
         else {
             Node cur = head;
             while (cur.next != null && cur.next.value.compareTo(value) < 0)
