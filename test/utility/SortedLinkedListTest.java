@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class SortedLinkedListTest {
-    SortedLinkedList<Integer> sortedLinkedList;
+    private SortedLinkedList<Integer> sortedLinkedList;
 
     @BeforeEach
     void setUp() {
