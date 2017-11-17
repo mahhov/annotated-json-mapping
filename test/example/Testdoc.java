@@ -98,14 +98,14 @@ class Testdoc implements Executable {
 
     private StringBuilder markdownTitle(String header) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("#").append(header).append("\n\n");
+        stringBuilder.append("# ").append(header).append("\n\n");
         return stringBuilder;
     }
 
     private StringBuilder markdownSection(String header, String body, String language) {
         StringBuilder stringBuilder = new StringBuilder();
         if (header != null)
-            stringBuilder.append("###").append(header).append("\n\n");
+            stringBuilder.append("### ").append(header).append("\n\n");
         if (language != null)
             stringBuilder.append("```").append(language).append("\n").append(body).append("\n```\n\n");
         else

@@ -1,8 +1,8 @@
-#Array Transpose
+# Array Transpose
 
 description
 
-###Input
+### Input
 
 ```json
 {
@@ -21,7 +21,7 @@ description
 }
 ```
 
-###Entity
+### Entity
 
 ```java
 package example.ArrayTranspose;
@@ -39,7 +39,7 @@ public class Entity {
 
 ```
 
-###Output
+### Output
 
 ```text
   nestedList: (size 2)
@@ -55,11 +55,11 @@ public class Entity {
 
 ```
 
-#Array Transpose
+# Array Transpose
 
 description
 
-###Input
+### Input
 
 ```json
 {
@@ -78,7 +78,7 @@ description
 }
 ```
 
-###Entity
+### Entity
 
 ```java
 package example.ArrayTranspose;
@@ -96,7 +96,7 @@ public class Entity {
 
 ```
 
-###Output
+### Output
 
 ```text
   nestedList: (size 2)
@@ -112,11 +112,11 @@ public class Entity {
 
 ```
 
-#Array Transpose
+# Array Transpose
 
 description
 
-###Input
+### Input
 
 ```json
 {
@@ -135,7 +135,7 @@ description
 }
 ```
 
-###Entity
+### Entity
 
 ```java
 package example.ArrayTranspose;
@@ -153,7 +153,7 @@ public class Entity {
 
 ```
 
-###Output
+### Output
 
 ```text
   nestedList: (size 2)
@@ -169,11 +169,11 @@ public class Entity {
 
 ```
 
-#Array Transpose
+# Array Transpose
 
 description
 
-###Input
+### Input
 
 ```json
 {
@@ -192,7 +192,7 @@ description
 }
 ```
 
-###Entity
+### Entity
 
 ```java
 package example.ArrayTranspose;
@@ -210,7 +210,7 @@ public class Entity {
 
 ```
 
-###Output
+### Output
 
 ```text
   nestedList: (size 2)
@@ -226,11 +226,11 @@ public class Entity {
 
 ```
 
-#Array Transpose
+# Array Transpose
 
 description
 
-###Input
+### Input
 
 ```json
 {
@@ -249,7 +249,7 @@ description
 }
 ```
 
-###Entity
+### Entity
 
 ```java
 package example.ArrayTranspose;
@@ -267,7 +267,7 @@ public class Entity {
 
 ```
 
-###Output
+### Output
 
 ```text
   nestedList: (size 2)
