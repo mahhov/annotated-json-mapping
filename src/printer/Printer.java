@@ -9,6 +9,7 @@ import java.util.List;
 public class Printer {
     private static StringBuilder stringBuilder = new StringBuilder();
 
+    // todo : print class name at first line like Repeater does
     public static String printObject(Object mappedJson) throws Exception {
         stringBuilder.setLength(0);
         printObject(0, mappedJson);

@@ -16,6 +16,9 @@ class Testdoc implements Executable {
     private Class entityClass;
     String name;
     private String description;
+    private String jsonInput;
+    private String entityAsText;
+    private String output;
 
     Testdoc(Path basePath, Class entityClass, String name, String description) {
         this.jsonInputPath = basePath.resolve("input.json");
@@ -26,28 +29,29 @@ class Testdoc implements Executable {
     }
 
     public void execute() throws Throwable {
-        String jsonInput = new String(Files.readAllBytes(jsonInputPath));
+        jsonInput = new String(Files.readAllBytes(jsonInputPath));
+        entityAsText = new String(Files.readAllBytes(entityPath));
         Object mappedObject = Mapper.map(entityClass, jsonInput);
 
-        String printed;
         if (mappedObject != null)
-            printed = Printer.printObject(mappedObject);
+            output = Printer.printObject(mappedObject);
         else
-            printed = "null";
+            output = "null";
 
         // todo: do some expect between printed and expectedPrinted or mappedObject and expectedMappedObject
-        
-        createTestdocDir(printed);
+
+        createTestdocDir();
+        toHtml();
     }
 
-    private void createTestdocDir(String output) throws IOException {
+    private void createTestdocDir() throws IOException {
         Path root = Paths.get("testdoc/" + name + "/");
         Files.createDirectories(root);
 
-        copyFile(jsonInputPath, "jsonInput");
-        copyFile(entityPath, "entity");
-        writeFile("output", output);
-        writeFile("description", description);
+        copyFile(jsonInputPath, "jsonInput.json");
+        copyFile(entityPath, "entity.java");
+        writeFile("output.txt", output);
+        writeFile("description.txt", description);
     }
 
     private void copyFile(Path srcFileName, String dstFileName) throws IOException {
@@ -59,6 +63,23 @@ class Testdoc implements Executable {
     }
 
     private Path getTestdocPath(String fileName) {
-        return Paths.get("testdoc/" + name + "/" + fileName + ".testdoc");
+        return Paths.get("testdoc/" + name + "/" + fileName);
+    }
+
+    private void toHtml() throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(htmlSection(name, description));
+        stringBuilder.append(htmlSection("Input", jsonInput));
+        stringBuilder.append(htmlSection("Entity", entityAsText));
+        stringBuilder.append(htmlSection("Output", output));
+
+        writeFile("testdoc.html", stringBuilder.toString());
+    }
+
+    private StringBuilder htmlSection(String header, String body) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<h1>").append(header).append("</h1>");
+        stringBuilder.append("<pre>").append(body).append("</pre>");
+        return stringBuilder;
     }
 }
