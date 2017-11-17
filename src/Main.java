@@ -1,21 +1,9 @@
-import mapper.Mapper;
-import printer.Printer;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 class Main {
-    private static final String JSON_INPUT = "input.json";
-
-    public static void main(String[] arg) throws Exception {
-        String jsonInput = new String(Files.readAllBytes(Paths.get(JSON_INPUT)));
-
-        NestedListEntity mappedObject = (NestedListEntity) Mapper.map(NestedListEntity.class, jsonInput);
-        if (mappedObject != null)
-            System.out.println(Printer.printObject(mappedObject));
+    public static void main(String[] arg) {
     }
 }
 
 
 // todo: conditional mappings
-// todo: test and generated docs
+// todo: compose testdocs to readme/documentation
+// todo: mini http server for examples
