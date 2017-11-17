@@ -13,11 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mapper {
+    private static final int MAX_DEPTH = 10;
+
     public static Object map(Class clazz, String jsonInput) throws Exception {
-        return mapObject(clazz, Path.EMPTY_PATH, new JSONObject(jsonInput), new int[0]);
+        return mapObject(0, clazz, Path.EMPTY_PATH, new JSONObject(jsonInput), new int[0]);
     }
 
-    private static Object mapObject(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
+    private static Object mapObject(int depth, Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
+        if (depth > MAX_DEPTH)
+            return null;
+
         Field[] fields = clazz.getDeclaredFields();
         Constructor declaredConstructor = clazz.getDeclaredConstructor();
         declaredConstructor.setAccessible(true);
@@ -35,13 +40,13 @@ public class Mapper {
                 }
             } else if (TypeCatagorizer.isList(field.getType())) {
                 Path path = Path.createPath(basePath, field, true);
-                List list = mapList(TypeCatagorizer.getListType(field.getGenericType()), path, jsonObj, indices);
+                List list = mapList(depth, TypeCatagorizer.getListType(field.getGenericType()), path, jsonObj, indices);
                 if (list.size() != 0)
                     empty = false;
                 field.set(mappedJson, list);
             } else {
                 Path path = Path.createPath(basePath, field, false);
-                Object objectValue = mapObject(field.getType(), path, jsonObj, indices);
+                Object objectValue = mapObject(depth + 1, field.getType(), path, jsonObj, indices);
                 if (objectValue != null)
                     empty = false;
                 field.set(mappedJson, objectValue);
@@ -53,13 +58,13 @@ public class Mapper {
         return mappedJson;
     }
 
-    private static List mapList(Type listType, Path path, JSONObject jsonObj, int[] indices) throws Exception {
+    private static List mapList(int depth, Type listType, Path path, JSONObject jsonObj, int[] indices) throws Exception {
         if (TypeCatagorizer.isSimple(listType))
             return mapListSimples((Class) listType, path, jsonObj, indices);
         else if (TypeCatagorizer.isList(listType))
-            return mapListLists(path, jsonObj, indices);
+            return mapListLists(depth, path, jsonObj, indices);
         else
-            return mapListObjects((Class) listType, path, jsonObj, indices);
+            return mapListObjects(depth, (Class) listType, path, jsonObj, indices);
     }
 
     private static List mapListSimples(Class clazz, Path path, JSONObject jsonObj, int[] indices) throws Exception {
@@ -76,14 +81,14 @@ public class Mapper {
         return list;
     }
 
-    private static List mapListLists(Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
+    private static List mapListLists(int depth, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         List list = new ArrayList();
         int i = 0;
         List listValue;
         do {
             int[] nextIndices = ArrayGrower.append(indices, i++);
             Path path = Path.nestList(basePath);
-            listValue = mapList(Integer.class, path, jsonObj, nextIndices);
+            listValue = mapList(depth, Integer.class, path, jsonObj, nextIndices);
             if (listValue.size() != 0)
                 list.add(listValue);
         } while (listValue.size() != 0);
@@ -91,13 +96,13 @@ public class Mapper {
         return list;
     }
 
-    private static List mapListObjects(Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
+    private static List mapListObjects(int depth, Class clazz, Path basePath, JSONObject jsonObj, int[] indices) throws Exception {
         List list = new ArrayList();
         int i = 0;
         Object value;
         do {
             int[] nextIndices = ArrayGrower.append(indices, i++);
-            value = mapObject(clazz, basePath, jsonObj, nextIndices);
+            value = mapObject(depth + 1, clazz, basePath, jsonObj, nextIndices);
             if (value != null)
                 list.add(value);
         } while (value != null);
