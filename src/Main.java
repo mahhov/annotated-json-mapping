@@ -12,7 +12,7 @@ class Main {
 
         NestedListEntity mappedObject = (NestedListEntity) Mapper.map(NestedListEntity.class, jsonInput);
         if (mappedObject != null)
-            Printer.printObject(mappedObject);
+            System.out.println(Printer.printObject(mappedObject));
     }
 }
 

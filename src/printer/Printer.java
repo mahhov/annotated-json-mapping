@@ -7,8 +7,12 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class Printer {
-    public static void printObject(Object mappedJson) throws Exception {
+    private static StringBuilder stringBuilder = new StringBuilder();
+
+    public static String printObject(Object mappedJson) throws Exception {
+        stringBuilder.setLength(0);
         printObject(0, mappedJson);
+        return stringBuilder.toString();
     }
 
     private static void printObject(int indent, Object mappedObject) throws Exception {
@@ -54,10 +58,10 @@ public class Printer {
     }
 
     private static void printField(int indent, String name) {
-        System.out.printf("%" + (indent + 1) + "s %-10s\n", "", name);
+        stringBuilder.append(String.format("%" + (indent + 1) + "s %-10s\n", "", name));
     }
 
     private static void printField(int indent, String name, Object value) {
-        System.out.printf("%" + (indent + 1) + "s %-10s: %s\n", "", name, value);
+        stringBuilder.append(String.format("%" + (indent + 1) + "s %-10s: %s\n", "", name, value));
     }
 }
