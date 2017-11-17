@@ -1,10 +1,12 @@
+package example.nestedlist;
+
 import mapper.JsonAnnotation;
 
 import java.util.ArrayList;
 
-class NestedListEntity {
+public class NestedListEntity {
     ArrayList<ArrayList<Integer>> nestedList;
-    
+
     @JsonAnnotation("nestedList.0")
     ArrayList<ArrayList<Integer>> nestedListRename;
 

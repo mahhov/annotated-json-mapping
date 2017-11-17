@@ -25,7 +25,7 @@ class Testdoc implements Executable {
 
     Testdoc(Path basePath, Class entityClass, String name, String description) {
         this.jsonInputPath = basePath.resolve("input.json");
-        this.entityPath = basePath.resolve("entity.java");
+        this.entityPath = basePath.resolve(entityClass.getSimpleName() + ".java");
         this.entityClass = entityClass;
         this.name = name;
         this.description = description;

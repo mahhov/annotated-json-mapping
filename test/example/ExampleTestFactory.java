@@ -1,6 +1,6 @@
 package example;
 
-import example.ArrayTranspose.Entity;
+import example.nestedlist.NestedListEntity;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
@@ -15,11 +15,7 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
     private static final Path README_OUTPUT = Paths.get("readme.md");
 
     private static final Testdoc[] TESTDOCS = new Testdoc[] {
-            new Testdoc(Paths.get("test/example/ArrayTranspose/"), Entity.class, "Array Transpose", "description"),
-            new Testdoc(Paths.get("test/example/ArrayTranspose/"), Entity.class, "Array Transpose", "description"),
-            new Testdoc(Paths.get("test/example/ArrayTranspose/"), Entity.class, "Array Transpose", "description"),
-            new Testdoc(Paths.get("test/example/ArrayTranspose/"), Entity.class, "Array Transpose", "description"),
-            new Testdoc(Paths.get("test/example/ArrayTranspose/"), Entity.class, "Array Transpose", "description")
+            new Testdoc(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List", "description"),
     };
     private int testdocIndex;
 
