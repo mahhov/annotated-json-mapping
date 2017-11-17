@@ -1,3 +1,39 @@
+# Renamed Field
+
+description
+
+### Input
+
+```json
+{
+  "firstName": "Manuel",
+  "lastName": "Reuter"
+}
+```
+
+### Entity
+
+```java
+package example.renamed;
+
+import mapper.JsonAnnotation;
+
+public class RenamedEntity {
+    String firstName;
+
+    @JsonAnnotation("lastName")
+    String familyName;
+}
+```
+
+### Output
+
+```text
+  firstName : Manuel
+  familyName: Reuter
+
+```
+
 # Nested List
 
 description
@@ -21,7 +57,7 @@ description
 }
 ```
 
-### NestedListEntity
+### Entity
 
 ```java
 package example.nestedlist;
