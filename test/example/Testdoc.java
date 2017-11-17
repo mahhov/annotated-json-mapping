@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+// todo: make this generic to any input/output test
 class Testdoc implements Executable {
     private Path jsonInputPath;
     private Path entityPath;
@@ -19,6 +20,8 @@ class Testdoc implements Executable {
     private String jsonInput;
     private String entityAsText;
     private String output;
+    String html;
+    String markdown;
 
     Testdoc(Path basePath, Class entityClass, String name, String description) {
         this.jsonInputPath = basePath.resolve("input.json");
@@ -40,8 +43,8 @@ class Testdoc implements Executable {
 
         // todo: do some expect between printed and expectedPrinted or mappedObject and expectedMappedObject
 
-        createTestdocDir();
-        toHtml();
+        // createTestdocDir();
+        composeDocumentation();
     }
 
     private void createTestdocDir() throws IOException {
@@ -52,6 +55,8 @@ class Testdoc implements Executable {
         copyFile(entityPath, "entity.java");
         writeFile("output.txt", output);
         writeFile("description.txt", description);
+        writeFile("testdoc.html", html);
+        writeFile("testdoc.md", markdown);
     }
 
     private void copyFile(Path srcFileName, String dstFileName) throws IOException {
@@ -66,20 +71,45 @@ class Testdoc implements Executable {
         return Paths.get("testdoc/" + name + "/" + fileName);
     }
 
-    private void toHtml() throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(htmlSection(name, description));
-        stringBuilder.append(htmlSection("Input", jsonInput));
-        stringBuilder.append(htmlSection("Entity", entityAsText));
-        stringBuilder.append(htmlSection("Output", output));
+    private void composeDocumentation() throws IOException {
+        StringBuilder htmlBuilder = new StringBuilder();
+        htmlBuilder.append(htmlSection(name, description));
+        htmlBuilder.append(htmlSection("Input", jsonInput));
+        htmlBuilder.append(htmlSection("Entity", entityAsText));
+        htmlBuilder.append(htmlSection("Output", output));
+        html = htmlBuilder.toString();
 
-        writeFile("testdoc.html", stringBuilder.toString());
+        StringBuilder markdownBuilder = new StringBuilder();
+        markdownBuilder.append(markdownTitle(name));
+        markdownBuilder.append(markdownSection(null, description, null));
+        markdownBuilder.append(markdownSection("Input", jsonInput, "json"));
+        markdownBuilder.append(markdownSection("Entity", entityAsText, "java"));
+        markdownBuilder.append(markdownSection("Output", output, "text"));
+        markdown = markdownBuilder.toString();
     }
 
     private StringBuilder htmlSection(String header, String body) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("<h1>").append(header).append("</h1>");
-        stringBuilder.append("<pre>").append(body).append("</pre>");
+        stringBuilder.append("<h1>").append(header).append("</h1>").append("\n");
+        stringBuilder.append("<pre>").append(body).append("</pre>").append("\n");
+        return stringBuilder;
+    }
+
+
+    private StringBuilder markdownTitle(String header) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("#").append(header).append("\n\n");
+        return stringBuilder;
+    }
+
+    private StringBuilder markdownSection(String header, String body, String language) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (header != null)
+            stringBuilder.append("###").append(header).append("\n\n");
+        if (language != null)
+            stringBuilder.append("```").append(language).append("\n").append(body).append("\n```\n\n");
+        else
+            stringBuilder.append(body).append("\n\n");
         return stringBuilder;
     }
 }
