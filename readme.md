@@ -1,6 +1,6 @@
-# Renamed Field
+# Renaming Fields
 
-description
+`@JsonAnnotation("...")`
 
 ### Input
 
@@ -34,9 +34,9 @@ public class RenamedEntity {
 
 ```
 
-# Omitted Name
+# Omitting Field Name
 
-description
+ending with a `@JsonAnnotation(".../")`
 
 ### Input
 
@@ -78,7 +78,53 @@ public class OmittedEntity {
 
 ```
 
-# Restructured Object
+# Ignoring Parts of Structure
+
+blank annotations `@JsonAnnotation("")`
+
+### Input
+
+```json
+{
+  "ignoredField": "The ignoredField field has a blank annotation, so it will be ignored",
+  "key": "The tuple class has a blank annotation,",
+  "value": "so it's fields will look for `key` and `value` instead of `tuple/key` and `tuple/value`"
+}
+```
+
+### Entity
+
+```java
+package example.ignored;
+
+import mapper.JsonAnnotation;
+
+public class IgnoredEntity {
+
+    @JsonAnnotation("")
+    String ignoredField;
+
+    @JsonAnnotation("")
+    Tuple tuple;
+    
+    static class Tuple {
+       String key;
+       String value;
+    }
+}
+```
+
+### Output
+
+```text
+  ignoredField: null
+  tuple     
+    key       : The tuple class has a blank annotation,
+    value     : so it's fields will look for `key` and `value` instead of `tuple/key` and `tuple/value`
+
+```
+
+# Restructuring Object
 
 description
 

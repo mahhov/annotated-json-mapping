@@ -1,5 +1,6 @@
 package example;
 
+import example.ignored.IgnoredEntity;
 import example.nestedlist.NestedListEntity;
 import example.ommited.OmittedEntity;
 import example.renamed.RenamedEntity;
@@ -19,9 +20,10 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
     private static final Path README_OUTPUT = Paths.get("readme.md");
 
     private static final Testdoc[] TESTDOCS = new Testdoc[] {
-            new Testdoc(Paths.get("test/example/renamed/"), RenamedEntity.class, "Renamed Field", "description"),
-            new Testdoc(Paths.get("test/example/ommited/"), OmittedEntity.class, "Omitted Name", "description"),
-            new Testdoc(Paths.get("test/example/restructured/"), RestructuredEntity.class, "Restructured Object", "description"),
+            new Testdoc(Paths.get("test/example/renamed/"), RenamedEntity.class, "Renaming Fields", "`@JsonAnnotation(\"...\")`"),
+            new Testdoc(Paths.get("test/example/ommited/"), OmittedEntity.class, "Omitting Field Name", "ending with a `@JsonAnnotation(\".../\")`"),
+            new Testdoc(Paths.get("test/example/ignored/"), IgnoredEntity.class, "Ignoring Parts of Structure", "blank annotations `@JsonAnnotation(\"\")`"),
+            new Testdoc(Paths.get("test/example/restructured/"), RestructuredEntity.class, "Restructuring Object", "description"),
             new Testdoc(Paths.get("test/example/traversal/"), TraversalEntity.class, "Traversing Paths", "description"),
             new Testdoc(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List", "description"),
     };
