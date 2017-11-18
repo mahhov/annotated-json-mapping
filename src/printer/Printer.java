@@ -12,6 +12,7 @@ public class Printer {
     // todo : print class name at first line like Repeater does
     public static String printObject(Object mappedJson) throws Exception {
         stringBuilder.setLength(0);
+        printField(mappedJson.getClass().getSimpleName());
         printObject(0, mappedJson);
         return stringBuilder.toString();
     }
@@ -56,6 +57,10 @@ public class Printer {
                 printField(indent, i + "");
                 printObject(indent + 2, list.get(i));
             }
+    }
+
+    private static void printField(String name) {
+        stringBuilder.append(String.format("%s\n", name));
     }
 
     private static void printField(int indent, String name) {
