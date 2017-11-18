@@ -92,5 +92,3 @@ class Entity {
 
     ZZ nullObj;
 }
-
-// todo : split out to mini entity test classes

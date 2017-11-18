@@ -431,3 +431,70 @@ public class NestedListEntity {
 
 ```
 
+# Typed Fields
+
+description
+
+### Input
+
+```json
+{
+  "number": 10,
+  "numericString": "135",
+  "string": "string",
+  "boolean": true,
+  "booleanString": "false"
+}
+```
+
+### Entity
+
+```java
+package example.typed;
+
+import mapper.JsonAnnotation;
+
+public class TypedEntity {
+    @JsonAnnotation("number")
+    int integer;
+
+    @JsonAnnotation("number")
+    Integer integerWrapped;
+
+    @JsonAnnotation("numericString")
+    int integerFromString;
+    
+    @JsonAnnotation("number")
+    byte bite;
+    
+    String string;
+    
+    @JsonAnnotation("number")
+    String stringFromInteger;
+
+    @JsonAnnotation("boolean")
+    String stringFromBoolean;
+
+    @JsonAnnotation("boolean")
+    Boolean booleen;
+
+    @JsonAnnotation("booleanString")
+    Boolean booleanFromString;
+}
+```
+
+### Output
+
+```text
+  integer   : 10
+  integerWrapped: 10
+  integerFromString: 135
+  bite      : 10
+  string    : string
+  stringFromInteger: 10
+  stringFromBoolean: true
+  booleen   : true
+  booleanFromString: false
+
+```
+

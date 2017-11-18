@@ -7,6 +7,7 @@ import example.ommited.OmittedEntity;
 import example.renamed.RenamedEntity;
 import example.restructured.RestructuredEntity;
 import example.traversal.TraversalEntity;
+import example.typed.TypedEntity;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
@@ -28,8 +29,8 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
             new Testdoc(Paths.get("test/example/traversal/"), TraversalEntity.class, "Traversing Paths", "description"),
             new Testdoc(Paths.get("test/example/list/"), ListEntity.class, "Lists", "description"),
             new Testdoc(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List", "description"),
+            new Testdoc(Paths.get("test/example/typed/"), TypedEntity.class, "Typed Fields", "description"),
     };
-    // types
     private int testdocIndex;
 
     @TestFactory
