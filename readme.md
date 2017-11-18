@@ -257,6 +257,97 @@ public class TraversalEntity {
 
 ```
 
+# Lists
+
+description
+
+### Input
+
+```json
+{
+  "list": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "listObjs": [
+    {
+      "value": 1
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 3
+    },
+    {
+      "value": 4
+    }
+  ]
+}
+```
+
+### Entity
+
+```java
+package example.list;
+
+import mapper.JsonAnnotation;
+
+import java.util.ArrayList;
+
+public class ListEntity {
+    ArrayList<Integer> list;
+
+    @JsonAnnotation("list.0")
+    ArrayList<Integer> listWithAnnotation;
+
+    ArrayList<Value> listObjs;
+    
+    @JsonAnnotation("listObjs.0")
+    ArrayList<Value> listObjsAnnotated;
+
+    static class Value {
+        int value;
+    }
+}
+```
+
+### Output
+
+```text
+  list      : (size 4)
+    1         
+    2         
+    3         
+    4         
+  listWithAnnotation: (size 4)
+    1         
+    2         
+    3         
+    4         
+  listObjs  : (size 4)
+    0         
+      value     : 1
+    1         
+      value     : 2
+    2         
+      value     : 3
+    3         
+      value     : 4
+  listObjsAnnotated: (size 4)
+    0         
+      value     : 1
+    1         
+      value     : 2
+    2         
+      value     : 3
+    3         
+      value     : 4
+
+```
+
 # Nested List
 
 description

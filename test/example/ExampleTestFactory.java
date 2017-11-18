@@ -1,6 +1,7 @@
 package example;
 
 import example.ignored.IgnoredEntity;
+import example.list.ListEntity;
 import example.nestedlist.NestedListEntity;
 import example.ommited.OmittedEntity;
 import example.renamed.RenamedEntity;
@@ -25,9 +26,10 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
             new Testdoc(Paths.get("test/example/ignored/"), IgnoredEntity.class, "Ignoring Parts of Structure", "blank annotations `@JsonAnnotation(\"\")`"),
             new Testdoc(Paths.get("test/example/restructured/"), RestructuredEntity.class, "Restructuring Object", "description"),
             new Testdoc(Paths.get("test/example/traversal/"), TraversalEntity.class, "Traversing Paths", "description"),
+            new Testdoc(Paths.get("test/example/list/"), ListEntity.class, "Lists", "description"),
             new Testdoc(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List", "description"),
     };
-    // todo ignored fields (members and objects)
+    // types
     private int testdocIndex;
 
     @TestFactory
