@@ -21,8 +21,9 @@ public class Testdoc implements Executable {
     private String name;
     private String description;
 
+    private static boolean GENERATE_EXPECTED_OUTPUT;
+    private boolean generateExpectedOutput;
     private Path expectedOutputPath;
-    private boolean generatedExpectedOutput;
 
     private String html;
     private String markdown;
@@ -42,9 +43,9 @@ public class Testdoc implements Executable {
         this.description = description;
     }
 
-    public Testdoc(Path basePath, Class entityClass, String name, String description, boolean generatedExpectedOutput) throws IOException {
+    public Testdoc(Path basePath, Class entityClass, String name, String description, boolean generateExpectedOutput) throws IOException {
         this(basePath, entityClass, name, description);
-        this.generatedExpectedOutput = generatedExpectedOutput;
+        this.generateExpectedOutput = generateExpectedOutput;
     }
 
     public void execute() throws Throwable {
@@ -55,7 +56,7 @@ public class Testdoc implements Executable {
         else
             output = "null";
 
-        if (generatedExpectedOutput)
+        if (GENERATE_EXPECTED_OUTPUT || generateExpectedOutput)
             Files.write(expectedOutputPath, output.getBytes());
         else
             assertEquals(output, expectedOutput);
@@ -114,5 +115,9 @@ public class Testdoc implements Executable {
 
     public String getMarkdown() {
         return markdown;
+    }
+
+    public static void enableGlobalGenerateExpectedOutput() {
+        GENERATE_EXPECTED_OUTPUT = true;
     }
 }
