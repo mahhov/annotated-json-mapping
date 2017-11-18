@@ -111,33 +111,27 @@ public class Mapper {
     }
 
     private static Object applyPath(JSONObject jsonObj, Path path, int[] indices) {
-        // todo: refactor
         try {
             if (path.segments.length == 0)
                 return null;
 
-            for (int i = 0; i < path.segments.length - 1; i++) {
-                Path.Segment segment = path.segments[i];
-                if (segment.array != -1) {
-                    JSONArray jsonArray = jsonObj.getJSONArray(segment.value);
-                    for (int j = 0; j < segment.arrayLayers - 1; j++)
-                        jsonArray = jsonArray.getJSONArray(indices[segment.array + j]);
-                    jsonObj = jsonArray.getJSONObject(indices[segment.array + segment.arrayLayers - 1]);
-                } else
-                    jsonObj = jsonObj.getJSONObject(segment.value);
-            }
+            for (int i = 0; i < path.segments.length - 1; i++)
+                jsonObj = (JSONObject) applyPathSegment(jsonObj, path.segments[i], indices);
 
-            Path.Segment lastSegment = path.segments[path.segments.length - 1];
-            if (lastSegment.array != -1) {
-                JSONArray jsonArray = jsonObj.getJSONArray(lastSegment.value);
-                for (int j = 0; j < lastSegment.arrayLayers - 1; j++)
-                    jsonArray = jsonArray.getJSONArray(indices[lastSegment.array + j]);
-                return jsonArray.get(indices[lastSegment.array + lastSegment.arrayLayers - 1]);
-            } else
-                return jsonObj.get(lastSegment.value);
+            return applyPathSegment(jsonObj, path.segments[path.segments.length - 1], indices);
 
         } catch (JSONException e) {
             return null;
         }
+    }
+
+    private static Object applyPathSegment(JSONObject jsonObj, Path.Segment segment, int[] indices) throws JSONException {
+        if (segment.array != -1) {
+            JSONArray jsonArray = jsonObj.getJSONArray(segment.value);
+            for (int i = 0; i < segment.arrayLayers - 1; i++)
+                jsonArray = jsonArray.getJSONArray(indices[segment.array + i]);
+            return jsonArray.get(indices[segment.array + segment.arrayLayers - 1]);
+        } else
+            return jsonObj.get(segment.value);
     }
 }

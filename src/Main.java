@@ -20,5 +20,4 @@ class Main {
 
 
 // todo: conditional mappings
-// todo: compose testdocs to readme/documentation
 // todo: allow transposing raw nested lists
