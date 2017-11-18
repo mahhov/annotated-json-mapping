@@ -1,0 +1,7 @@
+{
+  "tips": {
+    "tip1": "usually, JsonAnnotation paths are strucutred as `path/name`",
+    "tip2": "but if u ommit the name, (e.g. `path/`), JsonAnnotation will automatically append the field name"
+  },
+  "tip3": "careful not to confuse that with the `name` pattern, where the trailing `/` is omited"
+}

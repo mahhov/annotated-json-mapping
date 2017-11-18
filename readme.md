@@ -34,6 +34,50 @@ public class RenamedEntity {
 
 ```
 
+# Omitted Name
+
+description
+
+### Input
+
+```json
+{
+  "tips": {
+    "tip1": "usually, JsonAnnotation paths are strucutred as `path/name`",
+    "tip2": "but if u ommit the name, (e.g. `path/`), JsonAnnotation will automatically append the field name"
+  },
+  "tip3": "careful not to confuse that with the `name` pattern, where the trailing `/` is omited"
+}
+```
+
+### Entity
+
+```java
+package example.ommited;
+
+import mapper.JsonAnnotation;
+
+public class OmittedEntity {
+    @JsonAnnotation("tips/tip1")
+    String tip1;
+
+    @JsonAnnotation("tips/")
+    String tip2;
+
+    @JsonAnnotation("tip3")
+    String tip3;
+}
+```
+
+### Output
+
+```text
+  tip1      : usually, JsonAnnotation paths are strucutred as `path/name`
+  tip2      : but if u ommit the name, (e.g. `path/`), JsonAnnotation will automatically append the field name
+  tip3      : careful not to confuse that with the `name` pattern, where the trailing `/` is omited
+
+```
+
 # Restructured Object
 
 description
@@ -146,7 +190,7 @@ public class TraversalEntity {
         String three;
         String four;
         @JsonAnnotation("child/five")
-        String fiveRenamed;
+        String fivee;
         @JsonAnnotation("child/")
         String six;
     }
@@ -162,7 +206,7 @@ public class TraversalEntity {
     two       : 2
     three     : 3
     four      : 4
-    fiveRenamed: 5
+    fivee     : 5
     six       : 6
 
 ```
