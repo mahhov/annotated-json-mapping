@@ -1,0 +1,9 @@
+  integer   : 10
+  integerWrapped: 10
+  integerFromString: 135
+  bite      : 10
+  string    : string
+  stringFromInteger: 10
+  stringFromBoolean: true
+  booleen   : true
+  booleanFromString: false

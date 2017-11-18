@@ -1,0 +1,4 @@
+  ignoredField: null
+  tuple     
+    key       : The tuple class has a blank annotation,
+    value     : so it's fields will look for `key` and `value` instead of `tuple/key` and `tuple/value`
