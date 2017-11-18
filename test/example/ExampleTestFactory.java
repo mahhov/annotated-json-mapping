@@ -11,6 +11,7 @@ import example.typed.TypedEntity;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+import testdoc.Testdoc;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,14 +45,14 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
 
     public DynamicTest next() {
         Testdoc testdoc = TESTDOCS[testdocIndex++];
-        return DynamicTest.dynamicTest(testdoc.name, testdoc);
+        return DynamicTest.dynamicTest(testdoc.getName(), testdoc);
     }
 
     @AfterAll
     static void publishReadme() throws IOException {
         StringBuilder readmeBuilder = new StringBuilder();
         for (Testdoc testdoc : TESTDOCS)
-            readmeBuilder.append(testdoc.markdown);
+            readmeBuilder.append(testdoc.getMarkdown());
         String readme = readmeBuilder.toString();
         Files.write(README_OUTPUT, readme.getBytes());
     }

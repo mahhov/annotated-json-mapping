@@ -1,4 +1,4 @@
-package example;
+package testdoc;
 
 import mapper.Mapper;
 import org.junit.jupiter.api.function.Executable;
@@ -11,19 +11,19 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 // todo: make this generic to any input/output test
-class Testdoc implements Executable {
+public class Testdoc implements Executable {
     private Path jsonInputPath;
     private Path entityPath;
     private Class entityClass;
-    String name;
+    private String name;
     private String description;
     private String jsonInput;
     private String entityAsText;
     private String output;
-    String html;
-    String markdown;
+    private String html;
+    private String markdown;
 
-    Testdoc(Path basePath, Class entityClass, String name, String description) {
+    public Testdoc(Path basePath, Class entityClass, String name, String description) {
         this.jsonInputPath = basePath.resolve("input.json");
         this.entityPath = basePath.resolve(entityClass.getSimpleName() + ".java");
         this.entityClass = entityClass;
@@ -95,7 +95,6 @@ class Testdoc implements Executable {
         return stringBuilder;
     }
 
-
     private StringBuilder markdownTitle(String header) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("# ").append(header).append("\n\n");
@@ -111,5 +110,17 @@ class Testdoc implements Executable {
         else
             stringBuilder.append(body).append("\n\n");
         return stringBuilder;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getHtml() {
+        return html;
+    }
+
+    public String getMarkdown() {
+        return markdown;
     }
 }
