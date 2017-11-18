@@ -21,6 +21,9 @@ public class Testdoc implements Executable {
     private String name;
     private String description;
 
+    private Path expectedOutputPath;
+    private boolean generatedExpectedOutput;
+
     private String html;
     private String markdown;
 
@@ -31,12 +34,17 @@ public class Testdoc implements Executable {
         Path entityPath = basePath.resolve(entityClass.getSimpleName() + ".java");
         entityAsText = new String(Files.readAllBytes(entityPath));
 
-        Path expectedOutputPath = basePath.resolve("expectedOutput.txt");
+        expectedOutputPath = basePath.resolve("expectedOutput.txt");
         expectedOutput = new String(Files.readAllBytes(expectedOutputPath));
 
         this.entityClass = entityClass;
         this.name = name;
         this.description = description;
+    }
+
+    public Testdoc(Path basePath, Class entityClass, String name, String description, boolean generatedExpectedOutput) throws IOException {
+        this(basePath, entityClass, name, description);
+        this.generatedExpectedOutput = generatedExpectedOutput;
     }
 
     public void execute() throws Throwable {
@@ -47,7 +55,10 @@ public class Testdoc implements Executable {
         else
             output = "null";
 
-        assertEquals(output, expectedOutput);
+        if (generatedExpectedOutput)
+            Files.write(expectedOutputPath, output.getBytes());
+        else
+            assertEquals(output, expectedOutput);
 
         composeDocumentation();
     }
