@@ -1,3 +1,4 @@
+TraversalEntity
   numbers   
     zero      : 0
     one       : 1

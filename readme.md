@@ -29,6 +29,7 @@ public class RenamedEntity {
 ### Output
 
 ```text
+RenamedEntity
   firstName : Manuel
   familyName: Reuter
 
@@ -72,6 +73,7 @@ public class OmittedEntity {
 ### Output
 
 ```text
+OmittedEntity
   tip1      : usually, JsonAnnotation paths are strucutred as `path/name`
   tip2      : but if u ommit the name, (e.g. `path/`), JsonAnnotation will automatically append the field name
   tip3      : careful not to confuse that with the `name` pattern, where the trailing `/` is omited
@@ -117,6 +119,7 @@ public class IgnoredEntity {
 ### Output
 
 ```text
+IgnoredEntity
   ignoredField: null
   tuple     
     key       : The tuple class has a blank annotation,
@@ -179,6 +182,7 @@ public class RestructuredEntity {
 ### Output
 
 ```text
+RestructuredEntity
   outer     : i was originally nested, but am confident jsonAnnotation will let me out
   middle    
     value     : put me in the middle
@@ -246,6 +250,7 @@ public class TraversalEntity {
 ### Output
 
 ```text
+TraversalEntity
   numbers   
     zero      : 0
     one       : 1
@@ -317,6 +322,7 @@ public class ListEntity {
 ### Output
 
 ```text
+ListEntity
   list      : (size 4)
     1         
     2         
@@ -399,6 +405,7 @@ public class NestedListEntity {
 ### Output
 
 ```text
+NestedListEntity
   nestedList: (size 2)
     0         : (size 3)
       11        
@@ -486,6 +493,7 @@ public class TypedEntity {
 ### Output
 
 ```text
+TypedEntity
   integer   : 10
   integerWrapped: 10
   integerFromString: 135

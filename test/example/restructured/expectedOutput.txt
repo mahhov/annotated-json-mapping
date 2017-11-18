@@ -1,3 +1,4 @@
+RestructuredEntity
   outer     : i was originally nested, but am confident jsonAnnotation will let me out
   middle    
     value     : put me in the middle

@@ -1,3 +1,4 @@
+IgnoredEntity
   ignoredField: null
   tuple     
     key       : The tuple class has a blank annotation,

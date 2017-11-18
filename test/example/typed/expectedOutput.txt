@@ -1,3 +1,4 @@
+TypedEntity
   integer   : 10
   integerWrapped: 10
   integerFromString: 135
