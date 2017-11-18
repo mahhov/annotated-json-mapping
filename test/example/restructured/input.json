@@ -1,0 +1,9 @@
+{
+  "nestMe": "i was originally unnested, but am afraid jsonAnnotation will hide me deep inside",
+  "unestMe": {
+    "value": "i was originally nested, but am confident jsonAnnotation will let me out",
+    "middle": {
+      "middleValue": "put me in the middle"
+    }
+  }
+}

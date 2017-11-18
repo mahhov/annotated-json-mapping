@@ -34,6 +34,139 @@ public class RenamedEntity {
 
 ```
 
+# Restructured Object
+
+description
+
+### Input
+
+```json
+{
+  "nestMe": "i was originally unnested, but am afraid jsonAnnotation will hide me deep inside",
+  "unestMe": {
+    "value": "i was originally nested, but am confident jsonAnnotation will let me out",
+    "middle": {
+      "middleValue": "put me in the middle"
+    }
+  }
+}
+```
+
+### Entity
+
+```java
+package example.restructured;
+
+import mapper.JsonAnnotation;
+
+public class RestructuredEntity {
+    @JsonAnnotation("unestMe/value")
+    String outer;
+
+    @JsonAnnotation("unestMe/middle")
+    Nester middle;
+
+    static class Nester {
+        @JsonAnnotation("middleValue")
+        String value;
+    }
+
+    @JsonAnnotation("")
+    NesterOuter nesterOuter;
+
+    static class NesterOuter {
+        @JsonAnnotation("")
+        NesterInner nesterInner;
+    }
+
+    static class NesterInner {
+        @JsonAnnotation("nestMe")
+        String value;
+    }
+}
+```
+
+### Output
+
+```text
+  outer     : i was originally nested, but am confident jsonAnnotation will let me out
+  middle    
+    value     : put me in the middle
+  nesterOuter
+    nesterInner
+      value     : i was originally unnested, but am afraid jsonAnnotation will hide me deep inside
+
+```
+
+# Traversing Paths
+
+description
+
+### Input
+
+```json
+{
+  "zero": 0,
+  "one": 1,
+  "parent": {
+    "two": 2,
+    "three": 3,
+    "root": {
+      "four": 4,
+      "five": 5,
+      "child": {
+        "five": 5,
+        "six": 6
+      }
+    }
+  }
+}
+```
+
+### Entity
+
+```java
+package example.traversal;
+
+import mapper.JsonAnnotation;
+
+public class TraversalEntity {
+
+    @JsonAnnotation("parent/root")
+    Numbers numbers;
+
+    static class Numbers {
+        @JsonAnnotation("~/")
+        String zero;
+        @JsonAnnotation("^/^/")
+        String one;
+        @JsonAnnotation("~/parent/")
+        String two;
+        @JsonAnnotation("^/")
+        String three;
+        String four;
+        @JsonAnnotation("child/five")
+        String fiveRenamed;
+        @JsonAnnotation("child/")
+        String six;
+    }
+}
+```
+
+### Output
+
+```text
+  numbers   
+    zero      : 0
+    one       : 1
+    two       : 2
+    three     : 3
+    four      : 4
+    fiveRenamed: 5
+    six       : 6
+
+```
+
 # Nested List
 
 description
