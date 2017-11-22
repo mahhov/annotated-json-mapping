@@ -15,7 +15,7 @@ class Path {
     private String condition;
 
     // for construction
-private    UnusedTracker consumedArrays;
+    private UnusedTracker consumedArrays;
 
     private Path(Path basePath, String append) {
         String[] appendSplit;
@@ -69,7 +69,8 @@ private    UnusedTracker consumedArrays;
             consumedArrays = new UnusedTracker();
         else {
             consumedArrays = new UnusedTracker(basePath.consumedArrays);
-            ArrayGrower.copyO(basePath.segments, segments, basePathSize);
+            for (int i = 0; i < basePathSize; i++)
+                segments[i] = new Segment(basePath.segments[i]);
         }
         int count = basePathSize; // todo : rename and merge to 1 variable
         while (nonBlanks.size() > 0) {
@@ -163,6 +164,12 @@ private    UnusedTracker consumedArrays;
             this.value = value;
             this.array = array;
             this.arrayLayers = arrayLayers;
+        }
+
+        private Segment(Segment baseSegment) {
+            this.value = baseSegment.value;
+            this.array = baseSegment.array;
+            this.arrayLayers = baseSegment.arrayLayers;
         }
 
         public String toString() {

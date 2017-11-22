@@ -11,7 +11,7 @@ class Main {
 
     public static void main(String[] arg) throws Exception {
         String jsonInput = new String(Files.readAllBytes(INPUT_JSON_PATH));
-        
+
         Object mappedObject = Mapper.map(ENTITY, jsonInput);
         if (mappedObject != null)
             System.out.println(Printer.printObject(mappedObject));
@@ -19,5 +19,3 @@ class Main {
             System.out.println("null");
     }
 }
-
-// todo: allow transposing raw nested lists
