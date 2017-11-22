@@ -30,6 +30,7 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
     @BeforeAll
     static void setUp() {
         try {
+            // todo: fill out better descriptions
             TESTDOCS = new Testdoc[] {
                     new Testdoc(Paths.get("test/example/renamed/"), RenamedEntity.class, "Renaming Fields"),
                     new Testdoc(Paths.get("test/example/ommited/"), OmittedEntity.class, "Omitting Field Name"),
