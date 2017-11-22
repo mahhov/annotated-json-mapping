@@ -88,25 +88,35 @@ class Path {
     }
 
     static Path createPath(Path basePath, Field field, boolean list) {
-        JsonAnnotation annotation = (JsonAnnotation) field.getAnnotation(JsonAnnotation.class);
+        JsonAnnotation[] annotations = field.getAnnotationsByType(JsonAnnotation.class);
 
-        Path path;
-        if (annotation == null) {
-            if (list)
-                path = new Path(basePath, field.getName() + ".");
-            else
-                path = new Path(basePath, field.getName());
-        } else {
-            if (annotation.value().isEmpty())
-                path = basePath;
-            else if (isLeaf(annotation.value()))
-                path = new Path(basePath, annotation.value());
-            else
-                path = new Path(basePath, annotation.value() + field.getName());
-
-            if (annotation.debug())
-                System.out.println("DEBUG " + field.getName() + " - " + path);
+        for (JsonAnnotation annotation : annotations) {
+            Path path = createPathWithAnnotation(basePath, field, list, annotation);
+            if (path.isConditionMet())
+                return path;
         }
+
+        return createPathWithoutAnnotation(basePath, field, list);
+    }
+
+    private static Path createPathWithoutAnnotation(Path basePath, Field field, boolean list) {
+        if (list)
+            return new Path(basePath, field.getName() + ".");
+        else
+            return new Path(basePath, field.getName());
+    }
+
+    private static Path createPathWithAnnotation(Path basePath, Field field, boolean list, JsonAnnotation annotation) {
+        Path path;
+        if (annotation.value().isEmpty())
+            path = basePath;
+        else if (isLeaf(annotation.value()))
+            path = new Path(basePath, annotation.value());
+        else
+            path = new Path(basePath, annotation.value() + field.getName());
+
+        if (annotation.debug())
+            System.out.println("DEBUG " + field.getName() + " - " + path);
 
         return path;
     }

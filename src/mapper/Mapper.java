@@ -111,9 +111,6 @@ public class Mapper {
     }
 
     private static Object applyPath(JSONObject jsonObj, Path path, int[] indices) {
-        if (!path.isConditionMet())
-            return null;
-
         try {
             if (path.segments.length == 0)
                 return null;

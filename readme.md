@@ -517,6 +517,12 @@ description
   "flags": "flags are indicated by the `#` symbol and delimited by the `,` symbol; e.g., `path/name#flag1,flag2,flag3`",
   "flagsInheriting": "flags r inherited. For example, an outer path `path1#flag1` with a nested path `path2#flag2` with a nested field `name#flag3` will result in the path `path1/path2/name#flag1,flag2,flag3",
   "conditions": "conditions are indicated by the `?` symbol. If a path condition is not found in the path flags, then the path is ignored; e.g. `path/name?flag1` will be ignored; however, `path/name#flag1?flag1` will be active.",
+  "amountDue": {
+    "value": "300",
+    "currency": "dollar"
+  },
+  "lastAmountPaid": "400",
+  "lastPaymentCurrency": "euro"
 }
 ```
 
@@ -528,7 +534,7 @@ package example.conditional;
 import mapper.JsonAnnotation;
 
 public class ConditionalEntity {
-    @JsonAnnotation(value = "flags#flag1", debug = true)
+    @JsonAnnotation("flags#flag1")
     String flags;
 
     @JsonAnnotation("conditions#flag2?flag2")
@@ -541,6 +547,21 @@ public class ConditionalEntity {
         @JsonAnnotation("flagsInheriting?flag3")
         String flagsInheriting;
     }
+
+    @JsonAnnotation("amountDue#next")
+    Payment nextPayment;
+    
+    @JsonAnnotation("#last")
+    Payment lastPayment;
+    
+    static class Payment {
+        @JsonAnnotation("value?next")
+        @JsonAnnotation("lastAmountPaid?last")
+        String value;
+        @JsonAnnotation("currency?next")
+        @JsonAnnotation("lastPaymentCurrency?last")
+        String currency;
+    }
 }
 ```
 
@@ -552,6 +573,12 @@ ConditionalEntity
   conditions: conditions are indicated by the `?` symbol. If a path condition is not found in the path flags, then the path is ignored; e.g. `path/name?flag1` will be ignored; however, `path/name#flag1?flag1` will be active.
   inheritedFlagExample
     flagsInheriting: flags r inherited. For example, an outer path `path1#flag1` with a nested path `path2#flag2` with a nested field `name#flag3` will result in the path `path1/path2/name#flag1,flag2,flag3
+  nextPayment
+    value     : 300
+    currency  : dollar
+  lastPayment
+    value     : 400
+    currency  : euro
 
 ```
 
