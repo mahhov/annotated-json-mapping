@@ -1,6 +1,6 @@
 # Renaming Fields
 
-`@JsonAnnotation("...")`
+`@JsonAnnotation("{name}")`
 
 ### Input
 
@@ -37,7 +37,7 @@ RenamedEntity
 
 # Omitting Field Name
 
-ending with a `@JsonAnnotation(".../")`
+ending with a / `@JsonAnnotation("{path}/")`
 
 ### Input
 
@@ -508,7 +508,7 @@ TypedEntity
 
 # Conditional Paths
 
-description
+`@JsonAnnotation("{path}/{name}#{flag1,...flagn}?{condition}")`
 
 ### Input
 
