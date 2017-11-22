@@ -20,8 +20,4 @@ class Main {
     }
 }
 
-
-// todo: conditional mappings
 // todo: allow transposing raw nested lists
-
-// todo : change git author
