@@ -1,5 +1,6 @@
 package example;
 
+import example.conditional.ConditionalEntity;
 import example.ignored.IgnoredEntity;
 import example.list.ListEntity;
 import example.nestedlist.NestedListEntity;
@@ -38,6 +39,7 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
                     new Testdoc(Paths.get("test/example/list/"), ListEntity.class, "Lists", "description"),
                     new Testdoc(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List", "description"),
                     new Testdoc(Paths.get("test/example/typed/"), TypedEntity.class, "Typed Fields", "description"),
+                    new Testdoc(Paths.get("test/example/conditional/"), ConditionalEntity.class, "Conditional Paths", "description"),
             };
         } catch (IOException e) {
             e.printStackTrace();
