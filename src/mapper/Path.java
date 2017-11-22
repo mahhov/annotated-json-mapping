@@ -72,7 +72,6 @@ class Path {
             for (int i = 0; i < basePathSize; i++)
                 segments[i] = new Segment(basePath.segments[i]);
         }
-        int count = basePathSize; // todo : rename and merge to 1 variable
         while (nonBlanks.size() > 0) {
             String segmentStr = segmentStrs[nonBlanks.popFront()];
             if (segmentStr.contains(".")) {
@@ -81,9 +80,9 @@ class Path {
                 int segmentArray = segmentArraySplit.length > 1 ? Integer.valueOf(segmentArraySplit[1]) : consumedArrays.nextUnused();
                 int segmentArrayLayers = segmentArraySplit.length > 2 ? Integer.valueOf(segmentArraySplit[2]) : 1;
                 consumedArrays.setUsed(segmentArray);
-                segments[count++] = new Segment(segmentValue, segmentArray, segmentArrayLayers);
+                segments[basePathSize++] = new Segment(segmentValue, segmentArray, segmentArrayLayers);
             } else
-                segments[count++] = new Segment(segmentStr);
+                segments[basePathSize++] = new Segment(segmentStr);
         }
     }
 
