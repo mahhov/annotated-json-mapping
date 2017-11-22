@@ -8,6 +8,14 @@ public class UnusedTracker {
         useds = new SortedLinkedList<>();
     }
 
+    public UnusedTracker(UnusedTracker base) {
+        useds = new SortedLinkedList<>();
+
+        firstUnused = base.firstUnused;
+        for (Integer used : base.useds)
+            useds.sortedInsert(used);
+    }
+
     public int nextUnused() {
         int r = firstUnused;
         moveFirstUnused();

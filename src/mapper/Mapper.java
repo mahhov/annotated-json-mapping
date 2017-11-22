@@ -72,7 +72,7 @@ public class Mapper {
         int i = 0;
         Object simpleValue;
         do {
-            int[] nextIndices = ArrayGrower.append(indices, i++);
+            int[] nextIndices = ArrayGrower.appendI(indices, i++);
             simpleValue = applyPath(jsonObj, path, nextIndices);
             if (simpleValue != null)
                 list.add(TypeCatagorizer.convertSimpleValue(clazz, simpleValue));
@@ -86,7 +86,7 @@ public class Mapper {
         int i = 0;
         List listValue;
         do {
-            int[] nextIndices = ArrayGrower.append(indices, i++);
+            int[] nextIndices = ArrayGrower.appendI(indices, i++);
             Path path = Path.nestList(basePath);
             listValue = mapList(depth, Integer.class, path, jsonObj, nextIndices);
             if (listValue.size() != 0)
@@ -101,7 +101,7 @@ public class Mapper {
         int i = 0;
         Object value;
         do {
-            int[] nextIndices = ArrayGrower.append(indices, i++);
+            int[] nextIndices = ArrayGrower.appendI(indices, i++);
             value = mapObject(depth + 1, clazz, basePath, jsonObj, nextIndices);
             if (value != null)
                 list.add(value);
@@ -111,6 +111,9 @@ public class Mapper {
     }
 
     private static Object applyPath(JSONObject jsonObj, Path path, int[] indices) {
+        if (!path.isConditionMet())
+            return null;
+
         try {
             if (path.segments.length == 0)
                 return null;
