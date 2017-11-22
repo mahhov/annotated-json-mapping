@@ -14,6 +14,22 @@ class UnusedTrackerTest {
     }
 
     @Test
+    void copyConstructor() {
+        unusedTracker.nextUnused();
+        unusedTracker.nextUnused();
+        unusedTracker.setUsed(2);
+        unusedTracker.nextUnused();
+        unusedTracker.setUsed(5);
+        unusedTracker.setUsed(6);
+        unusedTracker.nextUnused();
+        unusedTracker.nextUnused();
+
+        UnusedTracker unusedTrackerCopy = new UnusedTracker(unusedTracker);
+        assertEquals(unusedTrackerCopy.nextUnused(), 8);
+        assertEquals(unusedTrackerCopy.nextUnused(), 9);
+    }
+
+    @Test
     void simple() {
         assertEquals(unusedTracker.nextUnused(), 0);
         assertTrue(unusedTracker.isUsed(0));
