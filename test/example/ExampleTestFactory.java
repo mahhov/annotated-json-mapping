@@ -31,15 +31,15 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
     static void setUp() {
         try {
             TESTDOCS = new Testdoc[] {
-                    new Testdoc(Paths.get("test/example/renamed/"), RenamedEntity.class, "Renaming Fields", "`@JsonAnnotation(\"{name}\")`"),
-                    new Testdoc(Paths.get("test/example/ommited/"), OmittedEntity.class, "Omitting Field Name", "ending with a / `@JsonAnnotation(\"{path}/\")`"),
-                    new Testdoc(Paths.get("test/example/ignored/"), IgnoredEntity.class, "Ignoring Parts of Structure", "blank annotations `@JsonAnnotation(\"\")`"),
-                    new Testdoc(Paths.get("test/example/restructured/"), RestructuredEntity.class, "Restructuring Object", "description"),
-                    new Testdoc(Paths.get("test/example/traversal/"), TraversalEntity.class, "Traversing Paths", "description"),
-                    new Testdoc(Paths.get("test/example/list/"), ListEntity.class, "Lists", "description"),
-                    new Testdoc(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List", "description"),
-                    new Testdoc(Paths.get("test/example/typed/"), TypedEntity.class, "Typed Fields", "description"),
-                    new Testdoc(Paths.get("test/example/conditional/"), ConditionalEntity.class, "Conditional Paths", "`@JsonAnnotation(\"{path}/{name}#{flag1,...flagn}?{condition}\")`"),
+                    new Testdoc(Paths.get("test/example/renamed/"), RenamedEntity.class, "Renaming Fields"),
+                    new Testdoc(Paths.get("test/example/ommited/"), OmittedEntity.class, "Omitting Field Name"),
+                    new Testdoc(Paths.get("test/example/ignored/"), IgnoredEntity.class, "Ignoring Parts of Structure"),
+                    new Testdoc(Paths.get("test/example/restructured/"), RestructuredEntity.class, "Restructuring Object"),
+                    new Testdoc(Paths.get("test/example/traversal/"), TraversalEntity.class, "Traversing Paths"),
+                    new Testdoc(Paths.get("test/example/list/"), ListEntity.class, "Lists"),
+                    new Testdoc(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List"),
+                    new Testdoc(Paths.get("test/example/typed/"), TypedEntity.class, "Typed Fields"),
+                    new Testdoc(Paths.get("test/example/conditional/"), ConditionalEntity.class, "Conditional Paths"),
             };
         } catch (IOException e) {
             e.printStackTrace();

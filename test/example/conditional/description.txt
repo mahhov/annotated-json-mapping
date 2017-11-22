@@ -1,0 +1,1 @@
+`@JsonAnnotation("{path}/{name}#{flag1,...flagn}?{condition}")`

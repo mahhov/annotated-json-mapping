@@ -28,7 +28,7 @@ public class Testdoc implements Executable {
     private String html;
     private String markdown;
 
-    public Testdoc(Path basePath, Class entityClass, String name, String description) throws IOException {
+    public Testdoc(Path basePath, Class entityClass, String name) throws IOException {
         Path jsonInputPath = basePath.resolve("input.json");
         jsonInput = new String(Files.readAllBytes(jsonInputPath));
 
@@ -40,11 +40,13 @@ public class Testdoc implements Executable {
 
         this.entityClass = entityClass;
         this.name = name;
-        this.description = description;
+
+        Path descriptionPath = basePath.resolve("description.txt");
+        description = new String(Files.readAllBytes(descriptionPath));
     }
 
-    public Testdoc(Path basePath, Class entityClass, String name, String description, boolean generateExpectedOutput) throws IOException {
-        this(basePath, entityClass, name, description);
+    public Testdoc(Path basePath, Class entityClass, String name, boolean generateExpectedOutput) throws IOException {
+        this(basePath, entityClass, name);
         this.generateExpectedOutput = generateExpectedOutput;
     }
 

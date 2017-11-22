@@ -1,0 +1,1 @@
+ending with a / `@JsonAnnotation("{path}/")`

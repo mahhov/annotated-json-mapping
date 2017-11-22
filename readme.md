@@ -129,7 +129,7 @@ IgnoredEntity
 
 # Restructuring Object
 
-description
+
 
 ### Input
 
@@ -194,7 +194,7 @@ RestructuredEntity
 
 # Traversing Paths
 
-description
+
 
 ### Input
 
@@ -264,7 +264,7 @@ TraversalEntity
 
 # Lists
 
-description
+
 
 ### Input
 
@@ -356,7 +356,7 @@ ListEntity
 
 # Nested List
 
-description
+
 
 ### Input
 
@@ -440,7 +440,7 @@ NestedListEntity
 
 # Typed Fields
 
-description
+
 
 ### Input
 
