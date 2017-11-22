@@ -15,7 +15,6 @@ public class ArrayGrower {
         return b;
     }
 
-    // todo write test for this
     public static String[] concatS(String[] a, String[] b) {
         String[] c = new String[a.length + b.length];
         System.arraycopy(a, 0, c, 0, a.length);
@@ -27,7 +26,6 @@ public class ArrayGrower {
         System.arraycopy(a, 0, b, 0, a.length);
     }
 
-    // todo write test for this
     public static void copyO(Object[] a, Object[] b, int n) {
         System.arraycopy(a, 0, b, 0, n);
     }
