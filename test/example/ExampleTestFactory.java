@@ -27,6 +27,9 @@ import java.util.Iterator;
 public class ExampleTestFactory implements Iterator<DynamicTest> {
     private static final Path README_OUTPUT = Paths.get("readme.md");
 
+    // set this to true when adding new tests/documentation exmaples. rather than comparing the results with expected outputs, it will generate expected outputs from results
+    private static final boolean GENERATE_EXPECTED_OUTPUTS = false;
+
     private static Testdoc[] TESTDOC;
     private int testdocIndex;
 
@@ -47,6 +50,8 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
                     new TestdocExample(Paths.get("test/example/typed/"), TypedEntity.class, "Typed Fields"),
                     new TestdocExample(Paths.get("test/example/conditional/"), ConditionalEntity.class, "Conditional Paths"),
             };
+            if (GENERATE_EXPECTED_OUTPUTS)
+                TestdocExample.enableGlobalGenerateExpectedOutput();
         } catch (IOException e) {
             e.printStackTrace();
         }
