@@ -1,3 +1,30 @@
+# Introduction
+
+JSON to Java entity & dto mapping, supporting extensive restructuring requiring annotations only.
+Spring uses Jackson to map JSON to Java objects; unfortunately, other than renaming fields, it lacks much power.
+This is an alternative that doesn't require writing `unpackNested(Map<String, Object>)` methods the way Jackson requires; it instead relies on simple `@JsonAnnotation("{path}/{name}#{flag1,...flagn}?{condition}")` annotations.
+
+For example, when you need to map a JSON object such as 
+```
+{
+  "x": {
+    "y": {
+      "z": "xyz"
+    }
+  }
+}
+```
+to an entity such as 
+```
+class Ent {
+    String z;
+}
+```
+it is as simple as 
+```
+@JsonAnnotation("x/y/")
+```
+
 # Renaming Fields
 
 `@JsonAnnotation("{name}")`
