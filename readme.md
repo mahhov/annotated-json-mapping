@@ -381,7 +381,7 @@ ListEntity
 
 ```
 
-# Lists with Multiple Sources
+# Extended Lists
 
 
 
@@ -411,13 +411,13 @@ ListEntity
 ### Entity
 
 ```java
-package example.listPiecedTogether;
+package example.listExtended;
 
 import mapper.JsonAnnotation;
 
 import java.util.ArrayList;
 
-public class ListPiecedTogetherEntity {
+public class ListExtendedEntity {
     @JsonAnnotation("parent/billData.0")
     ArrayList<Bill> bills;
 
@@ -434,7 +434,7 @@ public class ListPiecedTogetherEntity {
 ### Output
 
 ```text
-ListPiecedTogetherEntity
+ListExtendedEntity
   bills     : (size 2)
     0         
       amount    : 30

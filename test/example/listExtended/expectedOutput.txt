@@ -1,4 +1,4 @@
-ListPiecedTogetherEntity
+ListExtendedEntity
   bills     : (size 2)
     0         
       amount    : 30
