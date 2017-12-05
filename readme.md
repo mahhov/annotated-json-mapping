@@ -381,6 +381,72 @@ ListEntity
 
 ```
 
+# Lists with Multiple Sources
+
+
+
+### Input
+
+```json
+{
+  "parent": {
+    "billData": [
+      {
+        "value": 30,
+        "currency": "usd"
+      },
+      {
+        "value": 15,
+        "currency": "usd"
+      }
+    ]
+  },
+  "billPaidDates": [
+    "01/01/1991",
+    "05/05/1995"
+  ]
+}
+```
+
+### Entity
+
+```java
+package example.listPiecedTogether;
+
+import mapper.JsonAnnotation;
+
+import java.util.ArrayList;
+
+public class ListPiecedTogetherEntity {
+    @JsonAnnotation("parent/billData.0")
+    ArrayList<Bill> bills;
+
+    static class Bill {
+        @JsonAnnotation("value")
+        String amount;
+        String currency;
+        @JsonAnnotation("~/billPaidDates.0")
+        String date;
+    }
+}
+```
+
+### Output
+
+```text
+ListPiecedTogetherEntity
+  bills     : (size 2)
+    0         
+      amount    : 30
+      currency  : usd
+      date      : 01/01/1991
+    1         
+      amount    : 15
+      currency  : usd
+      date      : 05/05/1995
+
+```
+
 # Nested List
 
 

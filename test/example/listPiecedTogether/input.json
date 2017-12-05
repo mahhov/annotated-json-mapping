@@ -1,0 +1,18 @@
+{
+  "parent": {
+    "billData": [
+      {
+        "value": 30,
+        "currency": "usd"
+      },
+      {
+        "value": 15,
+        "currency": "usd"
+      }
+    ]
+  },
+  "billPaidDates": [
+    "01/01/1991",
+    "05/05/1995"
+  ]
+}

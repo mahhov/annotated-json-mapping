@@ -1,0 +1,10 @@
+ListPiecedTogetherEntity
+  bills     : (size 2)
+    0         
+      amount    : 30
+      currency  : usd
+      date      : 01/01/1991
+    1         
+      amount    : 15
+      currency  : usd
+      date      : 05/05/1995

@@ -3,6 +3,7 @@ package example;
 import example.conditional.ConditionalEntity;
 import example.ignored.IgnoredEntity;
 import example.list.ListEntity;
+import example.listPiecedTogether.ListPiecedTogetherEntity;
 import example.nestedlist.NestedListEntity;
 import example.ommited.OmittedEntity;
 import example.renamed.RenamedEntity;
@@ -41,6 +42,7 @@ public class ExampleTestFactory implements Iterator<DynamicTest> {
                     new TestdocExample(Paths.get("test/example/restructured/"), RestructuredEntity.class, "Restructuring Object"),
                     new TestdocExample(Paths.get("test/example/traversal/"), TraversalEntity.class, "Traversing Paths"),
                     new TestdocExample(Paths.get("test/example/list/"), ListEntity.class, "Lists"),
+                    new TestdocExample(Paths.get("test/example/listPiecedTogether/"), ListPiecedTogetherEntity.class, "Lists with Multiple Sources"),
                     new TestdocExample(Paths.get("test/example/nestedlist/"), NestedListEntity.class, "Nested List"),
                     new TestdocExample(Paths.get("test/example/typed/"), TypedEntity.class, "Typed Fields"),
                     new TestdocExample(Paths.get("test/example/conditional/"), ConditionalEntity.class, "Conditional Paths"),
