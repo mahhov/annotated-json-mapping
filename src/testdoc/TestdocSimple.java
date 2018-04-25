@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-// todo: make this generic to any input/output test
 public class TestdocSimple extends Testdoc {
     private String name;
     private String description;

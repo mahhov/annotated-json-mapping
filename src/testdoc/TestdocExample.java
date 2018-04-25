@@ -9,7 +9,6 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// todo: make this generic to any input/output test
 public class TestdocExample extends Testdoc {
     private String jsonInput;
     private String entityAsText;

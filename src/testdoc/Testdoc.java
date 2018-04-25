@@ -2,6 +2,7 @@ package testdoc;
 
 import org.junit.jupiter.api.function.Executable;
 
+// todo: make this generic to any input/output test
 public abstract class Testdoc implements Executable {
     public abstract String getName();
 
@@ -32,5 +33,4 @@ public abstract class Testdoc implements Executable {
             stringBuilder.append(body).append("\n\n");
         return stringBuilder;
     }
-
 }
